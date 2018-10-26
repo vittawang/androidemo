@@ -13,6 +13,6 @@ package com.uxin.recy;
  */
 public interface MultiType {
 
-    void getItemType();
+    int getItemType();
 
 }

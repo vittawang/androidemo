@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/staggered_vertical_two"
+        android:title="@string/staggered_vertical_two" />
+    <item
+        android:id="@+id/staggered_vertical_three"
+        android:title="@string/staggered_vertical_three" />
+    <item
+        android:id="@+id/staggered_horizontal_three"
+        android:title="@string/staggered_horizontal_three" />
+    <item
+        android:id="@+id/staggered_horizontal_four"
+        android:title="@string/staggered_horizontal_four" />
+    <item
+        android:id="@+id/grid_two"
+        android:title="@string/grid_two" />
+    <item
+        android:id="@+id/grid_three"
+        android:title="@string/grid_three" />
+    <item
+        android:id="@+id/grid_four"
+        android:title="@string/grid_four" />
+
+    <item
+        android:id="@+id/sub_menu"
+        android:title="@string/sub_menu">
+        <!-- "file" submenu -->
+        <menu>
+            <item
+                android:id="@+id/xixi"
+                android:title="@string/sub_menu_xixi" />
+            <item
+                android:id="@+id/haha"
+                android:title="@string/sub_menu_haha" />
+        </menu>
+    </item>
+
+    <!--四个属性  id / title / icon / showAsAction （是否在actionBar中显示）  -->
+
+    <!--  group 创建菜单组  -->
+
+</menu>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uxin.recy.entity.Video;
+import com.uxin.recy.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,19 @@ import java.util.List;
 public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.Holder> {
 
     private static final String TAG = "StaggeredAdapter";
-    public static final int LAYOUT = R.layout.item_staggered;
+    public static final int LAYOUT_GRID = R.layout.item_nine_grid;
+    public static final int LAYOUT_STAGGERED = R.layout.item_staggered;
     private Context mContext;
     private List<Video> mData;
     private int layoutRes;
+    private int adapterType = HORIZONTAL;
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+    public static final int GRID = 2;
+
+    public void setAdapterType(int adapterType) {
+        this.adapterType = adapterType;
+    }
 
     public StaggeredAdapter(int layoutRes) {
         this(new ArrayList<Video>(),layoutRes);
@@ -42,6 +52,7 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.Hold
     public StaggeredAdapter(List<Video> data, int layoutRes) {
         this.mData = data;
         this.layoutRes = layoutRes;
+        Log.e(TAG, "StaggeredAdapter: " + CommonUtils.dip2px(mContext,100) );
     }
 
     public Video getItem(int position){
@@ -64,10 +75,22 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.Hold
         Video item = getItem(position);
         ViewGroup.LayoutParams layoutParams = holder.item_container.getLayoutParams();
         //瀑布流核心代码 - 设置宽高
-        layoutParams.height = item.getHeight() * 300;
+        switch (adapterType) {
+            case HORIZONTAL:
+                layoutParams.width = item.getWidth() * 300;
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                break;
+            case VERTICAL:
+                layoutParams.height = item.getWidth() * 300;
+                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                break;
+            case GRID:
+                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                break;
+        }
         holder.item_container.setLayoutParams(layoutParams);
         Glide.with(mContext).load(item.getCover_pic()).into(holder.cover_iv);
-        holder.title_tv.setText(item.getTitle());
     }
 
     @Override

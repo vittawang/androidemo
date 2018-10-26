@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">recy</string>
+    <string name="staggered_vertical_two">纵向2列瀑布流</string>
+    <string name="staggered_vertical_three">纵向3列瀑布流</string>
+    <string name="staggered_horizontal_three">横向3行瀑布流</string>
+    <string name="staggered_horizontal_four">横向4行瀑布流</string>
+    <string name="grid_two">2列网格</string>
+    <string name="grid_three">3列网格</string>
+    <string name="grid_four">4列网格</string>
+    <string name="sub_menu">演示子菜单</string>
+    <string name="sub_menu_xixi">子菜单 - 嘻嘻</string>
+    <string name="sub_menu_haha">子菜单 - 哈哈</string>
 </resources>
