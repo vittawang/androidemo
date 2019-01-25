@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:background="#000">
 
-    <com.sunspot.expand.render.MatchView
+    <com.sunspot.expand.render.ShaderView
         android:id="@+id/match"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

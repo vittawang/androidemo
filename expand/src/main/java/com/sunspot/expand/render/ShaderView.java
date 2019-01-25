@@ -14,8 +14,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import java.util.logging.Handler;
-
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>

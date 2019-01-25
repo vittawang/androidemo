@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        match = findViewById(R.id.match);
-        match.startAnim();
+//        match = findViewById(R.id.match);
+//        match.startAnim();
 //        mViewPager = findViewById(R.id.view_pager);
 //        //页面间距
 ////        mViewPager.setPageMargin(CommonUtils.dip2px(this, 12));
