@@ -1,25 +1,8 @@
 package com.uxin.uxindemo;
 
-import android.animation.ObjectAnimator;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,12 +57,14 @@ public class MainActivity extends AppCompatActivity {
 //        adapter.insertMoreLayout();
 //        Log.e(TAG, "onCreate: " + formatNum(100));
 
-        Log.e(TAG, "onCreate: " + Double.parseDouble("1000.05") );
-        Log.e(TAG, "onCreate: " + Long.parseLong("1000.08") );
-        Log.e(TAG, "onCreate: " + Long.parseLong("1000.40") );
-        Log.e(TAG, "onCreate: " + Long.parseLong("1000.60") );
-        Log.e(TAG, "onCreate: " + Long.parseLong("1000.00") );
-        Log.e(TAG, "onCreate: " + Long.parseLong("-1000.80") );
+
+        //取余
+//        Log.e(TAG, "onCreate: " + 10 % 100 );
+//        Log.e(TAG, "onCreate: " + 0 % 100 );
+//        Log.e(TAG, "onCreate: " + 50 % 100 );
+//        Log.e(TAG, "onCreate: " + 100 % 100 );
+//        Log.e(TAG, "onCreate: " + 150 % 100 );
+//        Log.e(TAG, "onCreate: " + 250 % 100 );
 
 
     }

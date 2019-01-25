@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="25dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:text="哈哈哈"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <com.sunspot.shine.ShineView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+
+    <!--<com.sunspot.shine.ShineViewGroup-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:src="@mipmap/icon_video_bling_two"/>-->
+
+    <!--<com.sunspot.shine.ShineTextView-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:text="哈哈哈"-->
+    <!--android:textSize="18sp"-->
+    <!--android:gravity="center"-->
+    <!--android:textStyle="bold"/>-->
+
+</LinearLayout>

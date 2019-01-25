@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AvatarImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="k_length" format="dimension" />
+        <attr name="k_angle" format="integer" />
+        <attr name="default_avatar_res" format="reference" />
+        <attr name="inner_border_width" format="dimension" />
+        <attr name="inner_border_color" format="color" />
+        <attr name="has_avatar_cover" format="boolean" />
+        <attr name="has_pendant" format="boolean" />
+        <attr name="pendant_height" format="dimension" />
+    </declare-styleable>
+
+</resources>

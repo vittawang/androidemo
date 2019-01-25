@@ -1,0 +1,59 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="avatar_80">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="com.sunspot.identity:k_length">22dp</item>
+    </style>
+
+    <style name="avatar_60">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="com.sunspot.identity:k_length">18dp</item>
+    </style>
+
+    <style name="avatar_56">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="com.sunspot.identity:k_length">18dp</item>
+    </style>
+
+    <style name="avatar_44">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="com.sunspot.identity:k_length">15dp</item>
+    </style>
+
+    <style name="avatar_40">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="com.sunspot.identity:k_length">15dp</item>
+    </style>
+
+    <style name="avatar_34">
+        <item name="android:layout_width">34dp</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="com.sunspot.identity:k_length">15dp</item>
+    </style>
+
+    <style name="avatar_30">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="com.sunspot.identity:k_length">10dp</item>
+    </style>
+
+    <style name="avatar_24">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="com.sunspot.identity:k_length">10dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.sunspot.identity.AvatarImageView
+        android:id="@+id/avatar_cv"
+        style="@style/avatar" />
+
+    <!--<com.sunspot.identity.AvatarImageView-->
+        <!--android:id="@+id/a2"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--app:border_color="@color/colorPrimary"-->
+        <!--app:border_width="5dp"-->
+        <!--app:inner_border_color="#FFF"-->
+        <!--app:inner_border_width="3dp"-->
+        <!--app:k_length="15dp" />-->
+
+    <!--<com.sunspot.identity.AvatarImageView-->
+        <!--android:id="@+id/pendant"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--app:has_pendant="true"-->
+        <!--app:pendant_height="7dp"-->
+        <!--app:border_color="#ff9999"-->
+        <!--app:border_width="2dp">-->
+        <!--&lt;!&ndash;挂件&ndash;&gt;-->
+        <!--<View-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="#ff9999" />-->
+        <!--&lt;!&ndash;蒙层&ndash;&gt;-->
+    <!--</com.sunspot.identity.AvatarImageView>-->
+
+    <com.sunspot.identity.AvatarImageView
+        android:id="@+id/a4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:has_avatar_cover="true"
+        app:inner_border_width="20dp"
+        app:inner_border_color="#FFF"
+        app:border_color="@color/colorPrimary"
+        app:border_width="20dp"
+        app:k_angle="45"
+        app:k_length="15dp">
+        <!--蒙层-->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round" />
+    </com.sunspot.identity.AvatarImageView>
+    
+    <com.sunspot.identity.AvatarImageView
+        android:id="@+id/a6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:border_width="2dp"
+        app:border_color="#EAC00D"
+        app:has_pendant="true"
+        app:pendant_height="4dp">
+        <View
+            android:layout_width="10dp"
+            android:layout_height="13dp"
+            android:background="#EAC00D"/>
+    </com.sunspot.identity.AvatarImageView>
+
+    <!--<com.sunspot.identity.AvatarImageView-->
+        <!--android:id="@+id/a5"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp">-->
+        <!--&lt;!&ndash;蒙层&ndash;&gt;-->
+        <!--<View-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#5050F0F0" />-->
+    <!--</com.sunspot.identity.AvatarImageView>-->
+
+
+</LinearLayout>

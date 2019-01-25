@@ -13,10 +13,10 @@
         <!--android:text="显示弹窗"-->
         <!--android:onClick="onShowDialog"/>-->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recy"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
 
 
@@ -27,11 +27,11 @@
         <!--android:layout_height="50dp"-->
         <!--android:src="@mipmap/icon_video_bling_three"/>-->
 
-    <!--<com.uxin.uxindemo.ShineImageView-->
-        <!--android:id="@+id/shine"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:src="@mipmap/icon_video_bling_three"-->
-        <!--app:clip_shine_img="@mipmap/icon_video_bling_three"/>-->
+    <com.uxin.uxindemo.ShineImageView
+        android:id="@+id/shine"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/icon_video_bling_three"
+        app:clip_shine_img="@mipmap/icon_video_bling_three"/>
 
 </LinearLayout>

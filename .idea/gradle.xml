@@ -9,7 +9,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/customgroup" />
+            <option value="$PROJECT_DIR$/expand" />
+            <option value="$PROJECT_DIR$/identity" />
+            <option value="$PROJECT_DIR$/lifecircle" />
+            <option value="$PROJECT_DIR$/nine" />
+            <option value="$PROJECT_DIR$/pop" />
+            <option value="$PROJECT_DIR$/publisher" />
             <option value="$PROJECT_DIR$/recy" />
+            <option value="$PROJECT_DIR$/shine" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

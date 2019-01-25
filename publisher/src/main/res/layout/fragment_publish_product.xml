@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_bg_redbeans"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="154dp">
+
+        <LinearLayout
+            android:id="@+id/create_live_room_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:translationY="50dp">
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/icon_initiate_dialog_live_n" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="直播"
+                android:textColor="#2B2727"
+                android:textSize="14sp" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:visibility="invisible"-->
+                <!--android:text="@string/pia_change_des"-->
+                <!--android:textColor="@color/color_9B9898"-->
+                <!--android:textSize="12sp" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/create_video_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:translationY="50dp">
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/icon_initiate_dialog_video_n" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="视频"
+                android:textColor="#2B2727"
+                android:textSize="14sp" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/pia_change_des"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:visibility="invisible"-->
+                <!--android:text="@string/pia_change_des"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/color_9B9898"-->
+                <!--android:textSize="12sp" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/create_novel_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:translationY="50dp">
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/icon_initiate_dialog_novel_n" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="小说"
+                android:textColor="#2B2727"
+                android:textSize="14sp" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:visibility="invisible"-->
+                <!--android:text="@string/pia_change_des"-->
+                <!--android:textColor="@color/color_9B9898"-->
+                <!--android:textSize="12sp" />-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="bottom|center_horizontal">
+
+        <ImageView
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationY="32dp"
+            android:padding="8dp"
+            android:src="@drawable/icon_index_issue_close_n" />
+    </LinearLayout>
+</LinearLayout>
