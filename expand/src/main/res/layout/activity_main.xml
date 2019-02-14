@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    tools:context=".MainActivity"
-    android:background="#000">
+    android:background="#50CFBD"
+    tools:context=".MainActivity">
 
-    <com.sunspot.expand.render.ShaderView
-        android:id="@+id/match"
+    <com.sunspot.expand.render.MatchView
+        android:id="@+id/match_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/view_pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="252dp"-->
-        <!--android:layout_marginLeft="90dp"-->
-        <!--android:layout_marginRight="90dp"-->
-        <!--android:layout_marginTop="10dp"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="「抢唱」正在匹配..."
+            android:textColor="#FFFFFFFF"
+            android:textSize="26sp" />
+
+        <TextSwitcher
+            android:id="@+id/wating_ts"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="154dp"
+        android:layout_height="44dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/match_cancel_bg"
+        android:onClick="onCancelClick"
+        android:text="取消匹配"
+        android:textColor="#FFF" />
+
+</FrameLayout>

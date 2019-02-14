@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bg_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.sunspot.expand.render.RippleView
+        android:id="@+id/ripple"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        app:circle_count="2"
+        app:min_circle_radius="56dp"
+        app:ripple_color="#80FFFFFF"
+        app:ripple_speed="4" />
+
+    <com.sunspot.expand.render.RadarView
+        android:id="@+id/radar"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_gravity="center" />
+
+    <FrameLayout
+        android:id="@+id/avatar_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/match_avatar_shape"
+        android:padding="3dp">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/avatar" />
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/music_one"
+        android:layout_width="42dp"
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="111dp"
+        android:src="@drawable/match_music_one" />
+
+    <ImageView
+        android:id="@+id/music_two"
+        android:layout_width="25dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="132dp"
+        android:layout_marginLeft="60dp"
+        android:src="@drawable/match_music_two" />
+
+    <ImageView
+        android:id="@+id/music_three"
+        android:layout_width="25dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/match_music_three" />
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="220dp"
+        android:src="@drawable/match_top_icon" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="110dp"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/match_bottom_icon" />
+
+</merge>

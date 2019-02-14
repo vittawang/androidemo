@@ -1,20 +1,20 @@
 package com.sunspot.expand.render;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.SweepGradient;
-import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
-import com.sunspot.expand.CommonUtils;
-import com.sunspot.expand.ViewAnim;
+import com.sunspot.expand.R;
 
 /**
  * -------------------------------------
@@ -27,91 +27,106 @@ import com.sunspot.expand.ViewAnim;
  * 备注：
  * -------------------------------------
  */
-public class MatchView extends View implements Handler.Callback, ViewAnim {
+public class MatchView extends FrameLayout {
 
-    private static final int START_ANIM = 100;
-    private static final int RADA = 101;
-    private Handler mHandler = new Handler(this);
-    //页面中心点坐标
-    private int centerX, centerY;
-    private Paint mScanPaint;
-    private Context mContext;
-    private Paint mScanLinePaint;
-    private Matrix mRadaMatrix;
-    private int degree;
+    private ValueAnimator bgColorAnimator;
+    private int bgColor;
+    private ImageView bgView;
+    private View musicOne, musicTwo, musicThree;
+    private View avatarContainer;
+    private ValueAnimator mAvatarAnim;
+    private ValueAnimator mMusicAnim;
+    private RippleView ripple;
+    private RadarView radar;
 
-    public MatchView(Context context) {
+    public MatchView(@NonNull Context context) {
         this(context, null);
     }
 
-    public MatchView(Context context, @Nullable AttributeSet attrs) {
+    public MatchView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MatchView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MatchView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
-        centerX = CommonUtils.getScreenWidth(context) / 2;
-        centerY = CommonUtils.getScreenHeight(context) / 2;
-        initScanGradient();
+        LayoutInflater.from(context).inflate(R.layout.layout_match_view, this, true);
+        bgView = (ImageView) findViewById(R.id.bg_view);
+        musicOne = findViewById(R.id.music_one);
+        musicTwo = findViewById(R.id.music_two);
+        musicThree = findViewById(R.id.music_three);
+        avatarContainer = findViewById(R.id.avatar_container);
+        ripple = (RippleView) findViewById(R.id.ripple);
+        radar = (RadarView) findViewById(R.id.radar);
+        initAvatarAnim();
+        initMusicAnim();
+        initBgColorAnim();
     }
 
-    private void initScanGradient() {
-        mScanPaint = new Paint();
-        SweepGradient sweepGradient = new SweepGradient(centerX, centerY, Color.TRANSPARENT, Color.parseColor("#80FFFFFF"));//50% 透明度
-        mScanPaint.setShader(sweepGradient);
-        mScanLinePaint = new Paint();
-        mScanLinePaint.setColor(Color.WHITE);//雷达的一根线颜色
-        mScanLinePaint.setAntiAlias(true);
-        mScanLinePaint.setStrokeWidth(5);//雷达线的宽度
-        mRadaMatrix = new Matrix();
+    private void initBgColorAnim() {
+        //ARGB 背景颜色渐变（这里）
+        bgColorAnimator = ValueAnimator.ofInt(0xFFBEA2EA, 0xFF8FACED, 0xFFF893B4, 0xFF50CFBD, 0xFFBEA2EA);
+        bgColorAnimator.setEvaluator(new ArgbEvaluator());
+        bgColorAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        bgColorAnimator.setRepeatMode(ValueAnimator.RESTART);
+        bgColorAnimator.setInterpolator(new LinearInterpolator());
+        bgColorAnimator.setDuration(4000);
+        bgColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                bgColor = (int) animation.getAnimatedValue();
+                bgView.setBackgroundColor(bgColor);
+            }
+        });
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        drawRada(canvas);
-
+    private void initAvatarAnim() {
+        mAvatarAnim = ValueAnimator.ofFloat(1, 0.9f, 1);
+        mAvatarAnim.setRepeatMode(ValueAnimator.RESTART);
+        mAvatarAnim.setRepeatCount(ValueAnimator.INFINITE);
+        mAvatarAnim.setDuration(1800);
+        mAvatarAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float fraction = (float) animation.getAnimatedValue();
+                avatarContainer.setScaleX(fraction);
+                avatarContainer.setScaleY(fraction);
+            }
+        });
     }
 
-    private void drawRada(Canvas canvas) {
-        //雷达宽高 336dp
-        int r = CommonUtils.dip2px(mContext, 336) / 2;
-        int left = centerX - r;
-        int top = centerY - r;
-        canvas.setMatrix(mRadaMatrix);
-        RectF oval = new RectF(left, top, left + r * 2, top + r * 2);
-        canvas.drawOval(oval, mScanPaint);
-        //雷达线
-        canvas.drawLine(centerX, centerY, centerX + r, centerY, mScanLinePaint);
+    private void initMusicAnim() {
+        mMusicAnim = ValueAnimator.ofInt(0, -45, 0, -30, 0, 0);
+        mMusicAnim.setDuration(1000);
+        mMusicAnim.setRepeatCount(ValueAnimator.INFINITE);
+        mMusicAnim.setRepeatMode(ValueAnimator.RESTART);
+        mMusicAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        mMusicAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                musicOne.setRotation((int) animation.getAnimatedValue());
+                musicTwo.setRotation((int) animation.getAnimatedValue());
+                musicThree.setRotation((int) animation.getAnimatedValue());
+            }
+        });
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-            case RADA:
-                mRadaMatrix.setRotate(degree,centerX,centerY);
-                invalidate();
-                degree+=1;
-                if (degree > 360) {
-                    degree = 2;
-                }
-                mHandler.sendEmptyMessageDelayed(RADA, 1);//雷达刷新速率
-                return true;
-            case START_ANIM:
-
-                return true;
-        }
-        return false;
-    }
-
-    @Override
     public void startAnim() {
-        mHandler.sendEmptyMessage(RADA);
+        bgColorAnimator.start();
+        mAvatarAnim.start();
+        mMusicAnim.start();
+        radar.startAnim();
+        ripple.startAnim();
     }
 
-    @Override
     public void stopAnim() {
-        mHandler.removeCallbacksAndMessages(null);
+        bgColorAnimator.end();
+        mAvatarAnim.end();
+        mMusicAnim.end();
+        radar.stopAnim();
+        ripple.stopAnim();
+    }
+
+    public boolean isRunning() {
+        return mAvatarAnim.isRunning();
     }
 }

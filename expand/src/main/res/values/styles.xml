@@ -1,11 +1,20 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <declare-styleable name="RippleView">
+        <attr name="min_circle_radius" format="dimension" />
+        <attr name="circle_count" format="integer" />
+        <attr name="ripple_speed" format="integer" />
+        <attr name="ripple_color" format="color" />
+        <attr name="stroke_color" format="color"/>
+        <attr name="stroke_width" format="dimension"/>
+    </declare-styleable>
 
 </resources>

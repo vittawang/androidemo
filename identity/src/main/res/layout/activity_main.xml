@@ -9,7 +9,7 @@
 
     <com.sunspot.identity.AvatarImageView
         android:id="@+id/avatar_cv"
-        style="@style/avatar" />
+        style="@style/avatar_44" />
 
     <!--<com.sunspot.identity.AvatarImageView-->
         <!--android:id="@+id/a2"-->

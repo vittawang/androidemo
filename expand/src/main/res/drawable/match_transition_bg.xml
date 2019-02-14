@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/match_view_bg_one" />
+    <item android:drawable="@color/match_view_bg_two" />
+    <item android:drawable="@color/match_view_bg_three" />
+    <item android:drawable="@color/match_view_bg_four" />
+
+</transition>
