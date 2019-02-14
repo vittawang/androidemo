@@ -1,5 +1,6 @@
 package com.sunspot.expand;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -19,12 +20,13 @@ import android.widget.ViewSwitcher;
 import com.sunspot.expand.render.MatchView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Handler.Callback {
 
     private static final int ROLLING_START = 100;
-    private static final long ROLLING_DELAY_MILLIS = 2000;
+    private static final long ROLLING_INTERVAL_MILLIS = 2000;
     private MatchView matchView;
     private Handler mHandler = new Handler(this);
     private TextSwitcher textSwitcher;
@@ -66,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
     public void onCancelClick(View view) {
         startActivity(new Intent(this,TransitionActivity.class));
-//        if (matchView.isRunning()) {
-//            matchView.stopAnim();
-//        } else {
-//            matchView.startAnim();
-//        }
+        if (matchView.isRunning()) {
+            matchView.stopAnim();
+        } else {
+            matchView.startAnim();
+        }
     }
 
     @Override
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
         if (timeDeCount <= 0){
             timeDeCount = str.size();//这里做无限循环轮播，所以把条件还原
         }
-        mHandler.sendEmptyMessageDelayed(ROLLING_START, ROLLING_DELAY_MILLIS);
+        mHandler.sendEmptyMessageDelayed(ROLLING_START, ROLLING_INTERVAL_MILLIS);
         return true;
     }
 }

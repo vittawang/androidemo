@@ -4,20 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransitionActivity">
+    tools:context=".TransitionActivity"
+    android:background="#000">
 
-    <com.sunspot.expand.guide.GuideRippleView
-        android:id="@+id/guide"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"/>
+    <com.sunspot.expand.render.RippleView
+        android:id="@+id/ripple"
+        android:layout_width="425dp"
+        android:layout_height="425dp"
+        android:layout_gravity="center"
+        app:circle_count="2"
+        app:min_circle_radius="60dp"
+        app:ripple_color="#80FFFFFF"
+        app:ripple_speed="10" />
 
-    <ImageView
-        android:id="@+id/red_bean"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/icon_bottom_broadcast_live_n"
-        android:layout_gravity="center"/>
+    <!--<com.sunspot.expand.guide.GuideRippleView-->
+        <!--android:id="@+id/guide"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:layout_gravity="center"/>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/red_bean"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:src="@mipmap/icon_bottom_broadcast_live_n"-->
+        <!--android:layout_gravity="center"/>-->
 
 
 

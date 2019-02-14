@@ -1,5 +1,6 @@
 package com.sunspot.expand.render;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -7,8 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import com.sunspot.expand.R;
 
@@ -44,6 +45,7 @@ public class RippleView extends View {
     private Paint mStrokePaint;
     private int strokeColor;//圆的描边颜色
     private float strokeWidth;//圆的描边宽度
+    private ValueAnimator mValueAnimator;
 
     public RippleView(Context context) {
         this(context, null);
@@ -57,6 +59,21 @@ public class RippleView extends View {
         super(context, attrs, defStyleAttr);
         initAttr(context, attrs);
         initPaint();
+        initValueAnimator();
+    }
+
+    private void initValueAnimator() {
+        mValueAnimator = ValueAnimator.ofFloat(1,10);
+        mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        mValueAnimator.setDuration(100);
+        mValueAnimator.setInterpolator(new LinearInterpolator());
+        mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                invalidate();
+            }
+        });
     }
 
     private void initAttr(Context context, AttributeSet attrs) {
@@ -93,7 +110,7 @@ public class RippleView extends View {
         centerX = centerY = maxR;
         rList.clear();
         rList.add(minR);
-        Log.e(TAG, "onSizeChanged: w = " + w + " / h = " + h);
+//        Log.e(TAG, "onSizeChanged: w = " + w + " / h = " + h);
     }
 
     @Override
@@ -127,17 +144,20 @@ public class RippleView extends View {
             //在最内层添加了一条数据，size就会变大；要把最外层的圆移除掉（0位置）
             rList.remove(0);
         }
-        postInvalidateDelayed(10);
+//        postInvalidateDelayed(10);
     }
 
     public void startAnim() {
         isRunning = true;
-        postInvalidate();
+        mValueAnimator.start();
+        //post 与handler冲突，会有问题
+//        postInvalidate();
     }
 
     public void stopAnim() {
         if (isRunning) {
             isRunning = false;
+            mValueAnimator.end();
         }
     }
 

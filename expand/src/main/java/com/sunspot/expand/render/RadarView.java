@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import com.sunspot.expand.CommonUtils;
+
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>
@@ -42,6 +44,7 @@ public class RadarView extends View {
     private int lineStartColor = Color.parseColor("#CCFFFFFF");
     private int lineEndColor = Color.TRANSPARENT;
     private ValueAnimator valueAnimator;
+    private int mLineStartDistance = CommonUtils.dip2px(getContext(),60);
 
     public RadarView(Context context) {
         this(context, null);
@@ -85,7 +88,7 @@ public class RadarView extends View {
         //线的paint
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setShader(new LinearGradient(centerX, centerY, centerX + radius, centerY, lineStartColor, lineEndColor, Shader.TileMode.REPEAT));//渐变的线
+        mLinePaint.setShader(new LinearGradient(centerX + mLineStartDistance, centerY, centerX + radius, centerY, lineStartColor, lineEndColor, Shader.TileMode.REPEAT));//渐变的线
     }
 
     @Override
