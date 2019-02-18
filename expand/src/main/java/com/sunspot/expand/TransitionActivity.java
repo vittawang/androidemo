@@ -12,7 +12,7 @@ public class TransitionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transition);
-        ((RippleView) findViewById(R.id.ripple)).startAnim();
-//        ((GuideRippleView) findViewById(R.id.guide)).setCenterView(findViewById(R.id.red_bean));
+//        ((RippleView) findViewById(R.id.ripple)).startAnim();
+        ((GuideRippleView) findViewById(R.id.guide)).setCenterView(findViewById(R.id.red_bean));
     }
 }

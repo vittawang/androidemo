@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/guide_ripple_circle"
-        android:scaleX="0.7"
-        android:scaleY="0.7"/>
+        android:scaleX="0.66"
+        android:scaleY="0.66"
+        android:alpha="0"/>
 
 </merge>

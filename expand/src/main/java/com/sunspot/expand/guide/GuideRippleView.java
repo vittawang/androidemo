@@ -1,5 +1,6 @@
 package com.sunspot.expand.guide;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -18,18 +19,18 @@ import com.sunspot.expand.R;
  * -------------------------------------
  * 时间：2019/1/29 下午6:00
  * -------------------------------------
- * 描述：
+ * 描述：大红豆引导动画
  * -------------------------------------
- * 备注：
+ * 备注：start delay 也是可以循环播放的
  * -------------------------------------
  */
 public class GuideRippleView extends FrameLayout {
 
-    private static final long DURATION = 2000;
-    private float fraction = 0.6f;
+    private static final long DURATION = 1500;
+    private float fraction = 0.66f;
     private View circleIn;
     private View circleOut;
-    private float minR = 0.5f;
+    private float minR = 0.33f;
 
     public GuideRippleView(@NonNull Context context) {
         this(context, null);
@@ -46,49 +47,57 @@ public class GuideRippleView extends FrameLayout {
         circleOut = findViewById(R.id.circle_out);
     }
 
-    private static final String TAG = "GuideRippleView";
-
     public void setCenterView(final View view) {
-        ValueAnimator outX = ValueAnimator.ofFloat(1, fraction, minR);
-        outX.setRepeatCount(ValueAnimator.INFINITE);
-        outX.setRepeatMode(ValueAnimator.RESTART);
-        outX.setDuration(DURATION);
-        outX.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                circleOut.setScaleX(value);
-                circleOut.setScaleY(value);
-                if (value > fraction) {
-                    double f = (1 - (double) value) / 0.3f;//0 - 1
-                    circleOut.setAlpha((float) f);
-                    circleIn.setAlpha(0);
-                    circleIn.setScaleX(1);
-                    circleIn.setScaleY(1);
-                } else {
-                    double f = (fraction - value) / (fraction - minR);//0-1
-                    circleOut.setAlpha((float) (1 - f));//1 - 0
-                    circleIn.setScaleX((float) (1 - f * (1 - minR)));//1 - 0.33
-                    circleIn.setScaleY((float) (1 - f * (1 - minR)));//1 - 0.33
-                    if (f < 0.5f) {
-                        circleIn.setAlpha((float) (f / 0.5));//0 - 1
-                    } else {
-                        circleIn.setAlpha((float) ((1 - f) / 0.5));//1 - 0
-                    }
-                }
-            }
-        });
-        outX.start();
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "ScaleX", 1, 1.2f, 1);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "ScaleY", 1, 1.2f, 1);
-        scaleX.setDuration(DURATION);
-        scaleX.setRepeatCount(ObjectAnimator.INFINITE);
-        scaleX.setRepeatMode(ObjectAnimator.RESTART);
-        scaleY.setDuration(DURATION);
-        scaleY.setRepeatCount(ObjectAnimator.INFINITE);
-        scaleY.setRepeatMode(ObjectAnimator.RESTART);
-        scaleX.start();
-        scaleY.start();
+        ValueAnimator outScale = ValueAnimator.ofFloat(1, fraction, minR);//先开始
+        outScale.setRepeatCount(ValueAnimator.INFINITE);
+        outScale.setRepeatMode(ValueAnimator.RESTART);
+        outScale.setDuration(1100);
+        outScale.addUpdateListener(new AnimationListener(circleOut));
+        ValueAnimator inScale = ValueAnimator.ofFloat(1, fraction, minR);//后开始
+        inScale.setRepeatCount(ValueAnimator.INFINITE);
+        inScale.setRepeatMode(ValueAnimator.RESTART);
+        inScale.setDuration(1100);
+        inScale.setStartDelay(400);
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(1500);
+        set.playTogether(inScale,outScale);
+        inScale.addUpdateListener(new AnimationListener(circleIn));
+        ObjectAnimator centerViewScaleX = ObjectAnimator.ofFloat(view, "ScaleX", 1, 1.13f, 1);
+        ObjectAnimator centerViewScaleY = ObjectAnimator.ofFloat(view, "ScaleY", 1, 1.13f, 1);
+        centerViewScaleX.setDuration(1500);
+        centerViewScaleX.setRepeatCount(ObjectAnimator.INFINITE);
+        centerViewScaleX.setRepeatMode(ObjectAnimator.RESTART);
+        centerViewScaleY.setDuration(1500);
+        centerViewScaleY.setRepeatCount(ObjectAnimator.INFINITE);
+        centerViewScaleY.setRepeatMode(ObjectAnimator.RESTART);
+        centerViewScaleX.start();
+        centerViewScaleY.start();
+        set.start();
     }
+
+    class AnimationListener implements ValueAnimator.AnimatorUpdateListener {
+
+        private View view;
+
+        public AnimationListener(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            //1 - 0.66 - 0.33
+            float value = (float) animation.getAnimatedValue();
+            view.setScaleX(value);
+            view.setScaleY(value);
+            if (value > fraction) {//1 - 0.66
+                double f = (1 - (double) value) / minR;//0 - 0.33 / 0 - 1
+                view.setAlpha((float) f);
+            } else {//0.66 - 0.33
+                double f = (fraction - value) / (fraction - minR);//0 - 0.33 / 0 - 1
+                view.setAlpha((float) (1 - f));//1 - 0
+            }
+        }
+    }
+
 
 }
