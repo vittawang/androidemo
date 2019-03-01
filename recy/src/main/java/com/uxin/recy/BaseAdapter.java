@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +49,21 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
 
     public BaseAdapter(int layoutRes, List<T> data) {
         this.layoutRes = layoutRes;
+        if (data == null){
+            data = new ArrayList<>();
+        }
         this.mData = data;
+    }
+
+    public BaseAdapter(List<T> data){
+        if (data == null){
+            data = new ArrayList<>();
+        }
+        this.mData = data;
+    }
+
+    public List<T> getData() {
+        return mData;
     }
 
     @NonNull
@@ -85,7 +100,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     }
 
     public T getItem(int position) {
-        if (position >= 0 && mData != null && mData.size() > position) {
+        if (position >= 0 && mData != null && position < mData.size() ) {
             return mData.get(position);
         }
         return null;
@@ -198,6 +213,14 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public abstract void onBindViewHolder(@NonNull VH holder, int position);
+
+    @Override
+    public void onBindViewHolder(@NonNull VH holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
     }
 
     public OnItemClickListener getOnItemClickListener() {

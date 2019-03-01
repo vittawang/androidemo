@@ -17,4 +17,14 @@
         <attr name="stroke_width" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="OnlineChatAvatarView">
+        <attr name="item_length" format="dimension"/>
+        <attr name="item_pressed_length" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="OnlineAvatarView">
+        <attr name="view_length" format="dimension" />
+        <attr name="view_pressed_length" format="dimension" />
+    </declare-styleable>
+
 </resources>
