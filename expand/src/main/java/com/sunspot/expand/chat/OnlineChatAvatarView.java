@@ -36,10 +36,6 @@ public class OnlineChatAvatarView extends ViewGroup {
      */
     private int mPressedWidth;
     /**
-     * 数据集
-     */
-    private List<DataLogin> mList;
-    /**
      * 每条数据的长度
      */
     private int mItemLength;
@@ -62,38 +58,6 @@ public class OnlineChatAvatarView extends ViewGroup {
 
     public void setItemLength(int mItemLength) {
         this.mItemLength = mItemLength;
-    }
-
-    /**
-     * 设置数据（在线列表用）
-     *
-     * @param list 头像列表
-     */
-    public void setData(List<DataLogin> list) {
-        if (list == null || list.isEmpty()) {
-            setVisibility(GONE);
-            return;
-        }
-        setVisibility(VISIBLE);
-        mList = list;
-    }
-
-//    public void addView(int showCount) {
-//        removeAllViews();
-//        for (int i = 0; i < showCount; i++) {
-//            addView(createNormalView(mList.get(i)));
-//        }
-//    }
-
-    public View createNormalView(DataLogin data) {
-        ImageView imageView = new ImageView(getContext());
-        int padding = CommonUtils.dip2px(getContext(), 1);
-        imageView.setBackgroundResource(R.drawable.circle_white);
-        imageView.setPadding(padding, padding, padding, padding);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(mItemLength, mItemLength));
-        imageView.setImageResource(data.getDrawableRes());
-        imageView.setTag(data.getCount());
-        return imageView;
     }
 
     @Override
