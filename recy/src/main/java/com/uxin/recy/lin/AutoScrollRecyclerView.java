@@ -77,7 +77,7 @@ public class AutoScrollRecyclerView extends RecyclerView implements Handler.Call
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        return true;
+        return false;
     }
 
     /**

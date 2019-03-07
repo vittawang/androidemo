@@ -2,10 +2,16 @@ package com.sunspot.expand.chat;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sunspot.expand.CommonUtils;
 import com.sunspot.expand.R;
@@ -48,10 +54,14 @@ public class OnlineChatAvatarView extends ViewGroup {
 
     public OnlineChatAvatarView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(R.styleable.OnlineChatAvatarView);
-        mItemLength = typedArray.getDimensionPixelOffset(R.styleable.OnlineChatAvatarView_item_length, CommonUtils.dip2px(context, 32));
-        mPressedWidth = typedArray.getDimensionPixelOffset(R.styleable.OnlineChatAvatarView_item_pressed_length, CommonUtils.dip2px(context, 6));
-        typedArray.recycle();
+    }
+
+    public void setPressedWidth(int mPressedWidth) {
+        this.mPressedWidth = mPressedWidth;
+    }
+
+    public void setItemLength(int mItemLength) {
+        this.mItemLength = mItemLength;
     }
 
     /**
@@ -68,43 +78,21 @@ public class OnlineChatAvatarView extends ViewGroup {
         mList = list;
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        //计算最多可以显示下几条数据
-        int maxDisplayCount = (w - mItemLength) / (mItemLength - mPressedWidth) + 1;
-        int size = mList.size();
+    public void addView(int showCount) {
         removeAllViews();
-        if (size >= maxDisplayCount) {
-            //超出最大显示个数 在最后添加一个view
-            for (int i = 0; i < maxDisplayCount - 1; i++) {
-                addView(createNormalView(mList.get(i)));
-            }
-            addView(createLastView());
-        } else {
-            //没超出最大显示个数 正常显示
-            for (int i = 0; i < size; i++) {
-                addView(createNormalView(mList.get(i)));
-            }
+        for (int i = 0; i < showCount; i++) {
+            addView(createNormalView(mList.get(i)));
         }
-        requestLayout();
     }
 
-    private View createNormalView(DataLogin data) {
+    public View createNormalView(DataLogin data) {
         ImageView imageView = new ImageView(getContext());
         int padding = CommonUtils.dip2px(getContext(), 1);
         imageView.setBackgroundResource(R.drawable.circle_white);
         imageView.setPadding(padding, padding, padding, padding);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(mItemLength, mItemLength));
-        imageView.setImageResource(R.drawable.avatar);
-        return imageView;
-    }
-
-    private View createLastView() {
-        ImageView imageView = new ImageView(getContext());
-        imageView.setLayoutParams(new LayoutParams(mItemLength, mItemLength));
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setImageResource(R.drawable.online_item_last);
+        imageView.setImageResource(data.getDrawableRes());
+        imageView.setTag(data.getCount());
         return imageView;
     }
 
@@ -116,16 +104,22 @@ public class OnlineChatAvatarView extends ViewGroup {
             return;
         }
         int count = getChildCount();
+        //反向
         for (int i = 0; i < count; i++) {
-            int left = i * (mItemLength - mPressedWidth);
+            int j = count - i - 1;
+            int left = j * (mItemLength - mPressedWidth);
             int right = left + mItemLength;
             int top = 0;
             int bottom = mItemLength;
             getChildAt(i).layout(left, top, right, bottom);
         }
-    }
-
-    public void startAnim(){
-
+        //正向
+//        for (int i = 0; i < count; i++) {
+//            int left = i * (mItemLength - mPressedWidth);
+//            int right = left + mItemLength;
+//            int top = 0;
+//            int bottom = mItemLength;
+//            getChildAt(i).layout(left, top, right, bottom);
+//        }
     }
 }

@@ -3,8 +3,6 @@ package com.sunspot.expand.chat;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import com.sunspot.expand.CommonUtils;
 import com.sunspot.expand.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +26,8 @@ import java.util.List;
  * 备注：
  * -------------------------------------
  */
-public class OnlineAvatarView extends ViewGroup implements Handler.Callback {
+public class OnlineAvatarView2 extends ViewGroup {
 
-    private static final int DO_ANIM = -20;
     /**
      * 压住的宽度
      */
@@ -41,31 +37,25 @@ public class OnlineAvatarView extends ViewGroup implements Handler.Callback {
      */
     private List<DataLogin> mList;
 
-    private List<Integer> mShowArray = new ArrayList<>();
-    private List<Integer> mHideArray = new ArrayList<>();
     /**
      * 每条数据的长度
      */
     private int mItemLength;
 
-    private Handler mHandler = new Handler(this);
-    private long mDelayMillis = 2000;
-
-    public OnlineAvatarView(Context context) {
+    public OnlineAvatarView2(Context context) {
         this(context, null);
     }
 
-    public OnlineAvatarView(Context context, AttributeSet attrs) {
+    public OnlineAvatarView2(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public OnlineAvatarView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public OnlineAvatarView2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(R.styleable.OnlineAvatarView);
-        mItemLength = typedArray.getDimensionPixelOffset(R.styleable.OnlineAvatarView_view_length, CommonUtils.dip2px(context, 32));
-        mPressedWidth = typedArray.getDimensionPixelOffset(R.styleable.OnlineAvatarView_view_pressed_length, CommonUtils.dip2px(context, 6));
+        TypedArray typedArray = context.obtainStyledAttributes(R.styleable.OnlineAvatarView2);
+        mItemLength = typedArray.getDimensionPixelOffset(R.styleable.OnlineAvatarView2_item_view_length, CommonUtils.dip2px(context, 32));
+        mPressedWidth = typedArray.getDimensionPixelOffset(R.styleable.OnlineAvatarView2_item_view_pressed_length, CommonUtils.dip2px(context, 6));
         typedArray.recycle();
-
     }
 
     /**
@@ -92,17 +82,10 @@ public class OnlineAvatarView extends ViewGroup implements Handler.Callback {
         if (size > maxDisplayCount) {
             //超出最大显示个数 在最后添加一个view
             int endShowIndex = maxDisplayCount - 1;
-            mShowArray.clear();
             for (int i = 0; i < endShowIndex; i++) {
                 addView(createNormalView(mList.get(i)));
-                mShowArray.add(i);
             }
             addView(createLastView());
-            int hideArrayLength = size - maxDisplayCount + 1;
-            mHideArray.clear();
-            for (int i = 0; i < hideArrayLength; i++) {
-                mHideArray.add(i + endShowIndex);
-            }
             //11条数据，最多显示8条/那么showArray就是7位，hideArray就是4位/最后一条是空置位
             //showArray 0,1,2,3,4,5,6
             //hideArray 7,8,9,10
@@ -118,7 +101,7 @@ public class OnlineAvatarView extends ViewGroup implements Handler.Callback {
     private View createNormalView(DataLogin data) {
         TextView textView = new TextView(getContext());
         textView.setBackgroundResource(R.drawable.circle_white);
-        textView.setLayoutParams(new ViewGroup.LayoutParams(mItemLength, mItemLength));
+        textView.setLayoutParams(new LayoutParams(mItemLength, mItemLength));
         textView.setText(String.valueOf(data.getCount()));
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.BLACK);
@@ -150,32 +133,4 @@ public class OnlineAvatarView extends ViewGroup implements Handler.Callback {
         }
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        if (msg.what == DO_ANIM) {
-            //头像入队列，出队列
-            removeViewAt(getChildCount() - 1);
-            Integer remove = mShowArray.get(getChildCount() - 1);
-            mShowArray.remove(getChildCount() - 1);
-            mHideArray.add(remove);
-            Integer add = mHideArray.get(0);
-            View headView = createNormalView(mList.get(add));
-            addView(headView, 0);
-            mShowArray.add(0,add);
-            mHideArray.remove(0);
-            mHandler.sendEmptyMessageDelayed(DO_ANIM, mDelayMillis);
-        }
-        return true;
-    }
-
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        super.onWindowVisibilityChanged(visibility);
-        if (visibility == VISIBLE) {
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendEmptyMessageDelayed(DO_ANIM, mDelayMillis);
-        } else {
-            mHandler.removeCallbacksAndMessages(null);
-        }
-    }
 }

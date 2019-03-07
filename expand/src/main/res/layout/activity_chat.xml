@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".chat.ChatActivity">
 
-    <com.sunspot.expand.chat.OnlineAvatarView
+    <com.sunspot.expand.chat.OnlineView
         android:id="@+id/online_list"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#50FFFF00"
-        app:item_length="42dp"
-        app:item_pressed_length="8dp" />
+        android:layout_marginRight="8dp" />
+
+    <!--android:background="#50FFFF00"-->
+    <!--app:item_length="42dp"-->
+    <!--app:item_pressed_length="8dp"-->
 
 </LinearLayout>

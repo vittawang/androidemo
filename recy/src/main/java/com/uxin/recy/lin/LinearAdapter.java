@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.uxin.recy.BaseAdapter;
 import com.uxin.recy.BaseViewHolder;
@@ -35,7 +36,7 @@ public class LinearAdapter extends BaseAdapter<DataLinear, BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int position) {
         BaseViewHolder baseViewHolder = super.onCreateViewHolder(parent, position);
         View view = baseViewHolder.getView(R.id.rev_inner);
         if (view instanceof AutoScrollRecyclerView) {
@@ -49,6 +50,12 @@ public class LinearAdapter extends BaseAdapter<DataLinear, BaseViewHolder> {
                 ((AppCompatActivity) context).getLifecycle().addObserver(((AutoScrollRecyclerView) view));
             }
         }
+        baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: " + position  );
+            }
+        });
         return baseViewHolder;
     }
 
