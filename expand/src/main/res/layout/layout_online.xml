@@ -13,7 +13,8 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:text="50"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:alpha="0"/>
 
     <ImageView
         android:id="@+id/last_iv"
@@ -22,7 +23,7 @@
         android:layout_marginLeft="36dp"
         android:background="@drawable/circle_white"
         android:padding="1dp"
-        android:src="@drawable/avatar" />
+        android:src="@drawable/avatar"/>
 
     <com.sunspot.expand.chat.OnlineChatAvatarView
         android:id="@+id/online_view"
@@ -37,6 +38,6 @@
         android:layout_height="42dp"
         android:background="@drawable/circle_white"
         android:padding="1dp"
-        android:src="@drawable/avatar" />
+        android:src="@drawable/avatar"/>
 
 </FrameLayout>

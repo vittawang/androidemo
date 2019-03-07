@@ -78,12 +78,12 @@ public class OnlineChatAvatarView extends ViewGroup {
         mList = list;
     }
 
-    public void addView(int showCount) {
-        removeAllViews();
-        for (int i = 0; i < showCount; i++) {
-            addView(createNormalView(mList.get(i)));
-        }
-    }
+//    public void addView(int showCount) {
+//        removeAllViews();
+//        for (int i = 0; i < showCount; i++) {
+//            addView(createNormalView(mList.get(i)));
+//        }
+//    }
 
     public View createNormalView(DataLogin data) {
         ImageView imageView = new ImageView(getContext());
