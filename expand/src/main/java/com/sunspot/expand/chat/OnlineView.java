@@ -59,7 +59,7 @@ public class OnlineView extends FrameLayout implements Handler.Callback, ValueAn
 
     public OnlineView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(R.styleable.OnlineView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.OnlineView);
         mItemLength = typedArray.getDimensionPixelOffset(R.styleable.OnlineView_item_length, CommonUtils.dip2px(context, 42));
         mPressedWidth = typedArray.getDimensionPixelOffset(R.styleable.OnlineView_item_pressed_length, CommonUtils.dip2px(context, 8));
         typedArray.recycle();
