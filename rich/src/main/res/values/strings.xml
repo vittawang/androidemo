@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">rich</string>
+    <string name="social_share_weibo">微博</string>
+    <string name="social_share_wechat">微信</string>
+    <string name="social_share_wechat_timeline">朋友圈</string>
+    <string name="social_share_qq">QQ</string>
+    <string name="social_share_qq_zone">QQ空间</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <array name="group_dynamic_card_bg">
+        <item>#DBE6FF</item>
+        <item>#FEF1CC</item>
+        <item>#ECE0FF</item>
+        <item>#FFE1EB</item>
+        <item>#D2F9F3</item>
+        <item>#FFE4D0</item>
+    </array>
+</resources>

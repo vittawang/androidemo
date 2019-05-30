@@ -2,8 +2,12 @@ package com.sunspot.nine;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -49,7 +53,7 @@ public class NineGridLayout extends ViewGroup {
     //图片间隙
     private int mGap = 30;
     //图片view缓存list（多次setData复用之前new的view，不重新去add）
-    private List<ImageView> mViewList = new ArrayList<>();
+    private List<View> mViewList = new ArrayList<>();
     //存储计算的图片宽高
     private double mImageWidth;
     private double mImageHeight;
@@ -72,6 +76,7 @@ public class NineGridLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        measureChildren(widthMeasureSpec,heightMeasureSpec);
         if (!isEmpty(mList)) {
             int size = mList.size();
             switch (size) {
@@ -102,7 +107,7 @@ public class NineGridLayout extends ViewGroup {
         double imageWidth = imgInfo.getWidth();
         double imageHeight = imgInfo.getHeight();
         //图片宽高异常处理
-        if (imageWidth <= 0 || imageHeight <= 0){
+        if (imageWidth <= 0 || imageHeight <= 0) {
             imageWidth = imageHeight = mSignalImageLength;
         }
         boolean isVertical = imageWidth < imageHeight;
@@ -154,6 +159,7 @@ public class NineGridLayout extends ViewGroup {
         if (count == 1) {
             View childAt = getChildAt(0);
             childAt.layout(0, 0, (int) mImageWidth, (int) mImageHeight);
+            Log.e(TAG, "onLayout: " + childAt + " / ");
         } else if (count == 4) {
             for (int i = 0; i < count; i++) {
                 View childAt = getChildAt(i);
@@ -199,20 +205,20 @@ public class NineGridLayout extends ViewGroup {
             //需要addView
             for (int i = 0; i < size; i++) {
                 if (i >= childCount) {
-                    addImageView(i);
+                    addItemView(i);
                 }
-                setImageData(((ImageView) getChildAt(i)), list.get(i));
+                setImageData(getChildAt(i), list.get(i), i);
             }
         } else {
             //需要移除view (size < childCount)
             for (int i = 0; i < childCount; i++) {
                 if (i < size) {
-                    setImageData(((ImageView) getChildAt(i)), list.get(i));
+                    setImageData(getChildAt(i), list.get(i), i);
                 } else {
-                    ImageView imageView = mViewList.get(i);
-                    ViewGroup parent = (ViewGroup) imageView.getParent();
+                    View itemView = mViewList.get(i);
+                    ViewGroup parent = (ViewGroup) itemView.getParent();
                     if (parent != null) {
-                        parent.removeView(imageView);
+                        parent.removeView(itemView);
                     }
                 }
             }
@@ -226,27 +232,26 @@ public class NineGridLayout extends ViewGroup {
      *
      * @param position 需要addView的位置
      */
-    private void addImageView(final int position) {
+    private void addItemView(final int position) {
         int cacheSize = mViewList.size();
-        ImageView imageView;
+        View itemView;
         if (position < cacheSize) {
             //先从viewList里面取
-            imageView = mViewList.get(position);
+            itemView = mViewList.get(position);
         } else {
             //没有直接new出来
-            imageView = getNewImageView();
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            itemView = getNewItemView();
             if (mItemOnClickListener != null) {
-                imageView.setOnClickListener(new OnClickListener() {
+                itemView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mItemOnClickListener.onImageItemClick(v, position, mList);
                     }
                 });
             }
-            mViewList.add(imageView);
+            mViewList.add(itemView);
         }
-        addView(imageView);
+        addView(itemView);
     }
 
     /**
@@ -257,25 +262,27 @@ public class NineGridLayout extends ViewGroup {
     }
 
     /**
-     * 创建ImageView 或其子类
+     * 创建ItemView
      */
-    protected ImageView getNewImageView() {
-        return new ImageView(getContext());
+    protected View getNewItemView() {
+        return LayoutInflater.from(getContext()).inflate(R.layout.item_image,this,false);
+//        NineItemView nineItemView = new NineItemView(getContext());
+//        nineItemView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+//        return nineItemView;
+//        ImageView imageView = new ImageView(getContext());
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        imageView.setImageResource(R.mipmap.image);
+//        return imageView;
     }
 
     /**
      * 给imageView设置图片资源
      *
-     * @param imageView view
-     * @param imgInfo   data
+     * @param itemView view
+     * @param imgInfo  data
      */
-    protected void setImageData(ImageView imageView, ImgInfo imgInfo) {
-        imageView.setImageResource(R.mipmap.image);
-        if (mImageWidth > 0 && mImageHeight > 0) {
-//            UxinImageLoader.loadCoverBitmap(imgInfo.getUrl(), imageView, R.drawable.bg_small_placeholder, (int) mImageWidth, (int) mImageHeight);
-        } else {
-//            UxinImageLoader.loadCoverBitmap(imgInfo.getUrl(), imageView, R.drawable.bg_small_placeholder);
-        }
+    protected void setImageData(View itemView, ImgInfo imgInfo, int pos) {
+
     }
 
     /**
@@ -310,13 +317,6 @@ public class NineGridLayout extends ViewGroup {
      */
     public void setItemOnClickListener(ItemOnClickListener itemOnClickListener) {
         this.mItemOnClickListener = itemOnClickListener;
-    }
-
-    /**
-     * 九宫格控件点击事件
-     */
-    interface ItemOnClickListener {
-        void onImageItemClick(View view, int position, List<ImgInfo> list);
     }
 
 }

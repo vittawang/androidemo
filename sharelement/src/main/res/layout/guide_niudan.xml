@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guide_niudan_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/guide_bg_bling"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="256dp"
+        android:layout_height="78dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/guide_txt_niudan_out" />
+
+    <View
+        android:id="@+id/niudan_machine"
+        android:layout_width="173dp"
+        android:layout_height="293dp"
+        android:layout_marginTop="14dp"
+        android:background="@mipmap/guide_niudan_machine" />
+
+    <FrameLayout
+        android:id="@+id/niudan_btn"
+        android:layout_width="263dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_btn_bg_pink_sixdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@mipmap/guide_icon_niudan_white"
+            android:drawablePadding="8dp"
+            android:text="扭个蛋吧"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+</LinearLayout>

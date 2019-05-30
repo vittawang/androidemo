@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="share_platform_img">
+        <item>@drawable/selector_share_weibo</item>
+        <item>@drawable/selector_share_weixin</item>
+        <item>@drawable/selector_share_friends</item>
+        <item>@drawable/selector_share_qq</item>
+        <item>@drawable/selector_share_space</item>
+    </integer-array>
+
+    <string-array name="share_platform_text">
+        <item>@string/social_share_weibo</item>
+        <item>@string/social_share_wechat</item>
+        <item>@string/social_share_wechat_timeline</item>
+        <item>@string/social_share_qq</item>
+        <item>@string/social_share_qq_zone</item>
+    </string-array>
+</resources>
