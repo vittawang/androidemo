@@ -3,14 +3,12 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT" />
-        </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/aanr" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/customgroup" />
             <option value="$PROJECT_DIR$/expand" />
@@ -20,6 +18,8 @@
             <option value="$PROJECT_DIR$/pop" />
             <option value="$PROJECT_DIR$/publisher" />
             <option value="$PROJECT_DIR$/recy" />
+            <option value="$PROJECT_DIR$/rich" />
+            <option value="$PROJECT_DIR$/sharelement" />
             <option value="$PROJECT_DIR$/shine" />
           </set>
         </option>
