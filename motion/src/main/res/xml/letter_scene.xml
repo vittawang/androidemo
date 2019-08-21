@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/starting_set">
+        <Constraint android:id="@+id/a"/>
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/ending_set">
+
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/ending_set"
+        app:constraintSetStart="@id/starting_set"
+        app:duration="1500">
+
+
+
+
+    </Transition>
+
+</MotionScene>

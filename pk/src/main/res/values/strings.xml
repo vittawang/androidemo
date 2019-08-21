@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">pk</string>
+    <string name="vote_for_me">站我</string>
+    <string name="vote_sub">站队</string>
+    <string name="not_started">未开始</string>
+    <string name="vote_people_count">%s人</string>
+</resources>

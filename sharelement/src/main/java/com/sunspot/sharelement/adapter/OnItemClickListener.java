@@ -1,5 +1,7 @@
 package com.sunspot.sharelement.adapter;
 
+import android.view.View;
+
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>
@@ -11,5 +13,8 @@ package com.sunspot.sharelement.adapter;
  * 备注：
  * -------------------------------------
  */
-public class OnItemClickListener {
+public interface OnItemClickListener {
+
+    void onClick(BaseAdapter adapter, View view,int position);
+
 }

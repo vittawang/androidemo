@@ -51,6 +51,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         mNiudanIv = view.findViewById(R.id.niudan_iv);
         mRev = view.findViewById(R.id.rev);
         mRev.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //exit reenter
         getActivity().setExitSharedElementCallback(new SharedElementCallback() {
 
             @Override

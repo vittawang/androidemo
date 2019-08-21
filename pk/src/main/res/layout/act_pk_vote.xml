@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
+
+    <LinearLayout
+        android:id="@+id/vote_layout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.sunspot.pk.ShakeButtonWrapper
+            android:layout_width="110dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/red_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rect_ff8383_c100"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="@string/vote_for_me" />
+
+        </com.sunspot.pk.ShakeButtonWrapper>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.sunspot.pk.ShakeButtonWrapper
+            android:layout_width="110dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/blue_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rect_9ebbfb_c100"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="@string/vote_for_me" />
+
+        </com.sunspot.pk.ShakeButtonWrapper>
+    </LinearLayout>
+
+    <com.sunspot.pk.rc.RCFrameLayout
+        android:id="@+id/progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        app:round_corner="18dp"
+        android:visibility="gone">
+
+        <!--这个是正向绘制-->
+        <com.sunspot.pk.TiltProgressView
+            android:id="@+id/left_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left" />
+
+        <!--设置它反向绘制：旋转了180度-->
+        <com.sunspot.pk.TiltProgressView
+            android:id="@+id/right_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:rotation="180" />
+    </com.sunspot.pk.rc.RCFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/red_count_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/red_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            tools:text="25人" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.66"
+            android:text="@string/vote_sub"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blue_count_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/blue_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            tools:text="25人" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.66"
+            android:text="@string/vote_sub"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+
+</merge>
