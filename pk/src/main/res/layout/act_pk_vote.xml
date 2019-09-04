@@ -13,44 +13,33 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.sunspot.pk.ShakeButtonWrapper
+        <TextView
+            android:id="@+id/red_tv"
             android:layout_width="110dp"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/red_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rect_ff8383_c100"
-                android:gravity="center"
-                android:textColor="#fff"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="@string/vote_for_me" />
-
-        </com.sunspot.pk.ShakeButtonWrapper>
+            android:layout_height="match_parent"
+            android:background="@drawable/rect_ff8383_c100"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="@string/vote_for_me" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.sunspot.pk.ShakeButtonWrapper
+        <TextView
+            android:id="@+id/blue_tv"
             android:layout_width="110dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/rect_9ebbfb_c100"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="@string/vote_for_me" />
 
-            <TextView
-                android:id="@+id/blue_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rect_9ebbfb_c100"
-                android:gravity="center"
-                android:textColor="#fff"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="@string/vote_for_me" />
-
-        </com.sunspot.pk.ShakeButtonWrapper>
     </LinearLayout>
 
     <com.sunspot.pk.rc.RCFrameLayout
@@ -58,8 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
-        app:round_corner="18dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:round_corner="18dp">
 
         <!--这个是正向绘制-->
         <com.sunspot.pk.TiltProgressView

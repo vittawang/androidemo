@@ -36,7 +36,7 @@ public class UxAnimationUtils {
                             view.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    scaleAnimation(view, 1.10f, 1.0f, 80, new AnimatorListenerAdapter() {
+                                    scaleAnimation(view, 1f, 1.0f, 80, new AnimatorListenerAdapter() {
                                         @Override
                                         public void onAnimationEnd(Animator animation) {
                                             super.onAnimationEnd(animation);

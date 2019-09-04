@@ -11,10 +11,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        final TiltProgressView clip = findViewById(R.id.clip);
-//        clip.setAngle(45);
-//        //这样就从右边开始绘制了 哈哈哈！！！
-////        clip.setRotation(180);
+        final TiltProgressView clip = findViewById(R.id.clip);
+        clip.setAngle(45);
+        //这样就从右边开始绘制了 哈哈哈！！！
+        clip.setRotation(180);
+        clip.setFraction(0.3f);
 //        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
 //        valueAnimator.setDuration(3 * 1000);
 //        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

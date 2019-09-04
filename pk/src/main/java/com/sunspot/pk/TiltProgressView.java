@@ -79,7 +79,7 @@ public class TiltProgressView extends View {
         int measuredHeight = getMeasuredHeight();
         //三角函数(注意：这里要传弧度单位)
         double tan = Math.tan(angle * Math.PI / 180f);
-//        Log.e(TAG, "onDraw: " + tan + " / " + measuredWidth + " / " + measuredHeight);
+        Log.e(TAG, "onDraw: " + tan + " / " + measuredWidth + " / " + measuredHeight);
         if (measuredWidth > 0 && measuredHeight > 0) {
             //绘制底下的蓝色条
             canvas.drawRect(0, 0, measuredWidth, measuredHeight, mDownPaint);
@@ -142,6 +142,7 @@ public class TiltProgressView extends View {
      */
     public void setDownColor(int downPaintColor) {
         this.downPaintColor = downPaintColor;
+        mDownPaint.setColor(downPaintColor);
     }
 
     /**
@@ -149,6 +150,7 @@ public class TiltProgressView extends View {
      */
     public void setUpColor(int upPaintColor) {
         this.upPaintColor = upPaintColor;
+        mUpPaint.setColor(upPaintColor);
     }
 
     /**

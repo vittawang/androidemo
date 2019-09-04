@@ -1,5 +1,7 @@
 package com.sunspot.pk;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -26,6 +28,8 @@ import android.widget.TextView;
  */
 public class PKBottomView extends FrameLayout {
 
+    private static final String TAG = "PKBottomView";
+
     /**
      * 红蓝方站我按钮，红蓝方人数
      */
@@ -40,6 +44,10 @@ public class PKBottomView extends FrameLayout {
     private View redSupportLL, blueSupportLL, voteLayout, progressContainer;
 
     private VoteListener voteListener;
+    /**
+     * 进度开始绘制的时间（跟btn动画比较的延迟时间）
+     */
+    private int tStartOffset;
 
     /**
      * 1、未开始
@@ -71,6 +79,8 @@ public class PKBottomView extends FrameLayout {
         blueSupportLL = findViewById(R.id.blue_count_layout);
         redCountTv = (TextView) findViewById(R.id.red_count_tv);
         blueCountTv = (TextView) findViewById(R.id.blue_count_tv);
+        leftProgress.setUpColor(Color.parseColor("#FF8383"));
+        rightProgress.setUpColor(Color.parseColor("#9EBBFB"));
         progressSetting(leftProgress);
         progressSetting(rightProgress);
     }
@@ -83,7 +93,9 @@ public class PKBottomView extends FrameLayout {
     public void setData() {
         //todo
         //根据活动状态展示不同的效果
-        setActive(false,24,75);
+        setActive(false, 24, 75);
+//        setEnded(150,100);
+//        setNotStarted();
     }
 
     /**
@@ -166,17 +178,18 @@ public class PKBottomView extends FrameLayout {
         if (redBtn.getVisibility() != VISIBLE || blueBtn.getVisibility() != VISIBLE) {
             return;
         }
-        //btn渐隐 385ms
+        //btn呼吸后渐隐 tStartOffset = 462+80+385ms
         animateBtn(redBtn);
         animateBtn(blueBtn);
-        //间隔 385 + 231ms，进度条move 3080ms 先加速后减速
+        //间隔 tStartOffset + 231ms，进度条move 3080ms 先加速后减速
+        progressContainer.setVisibility(VISIBLE);
         float totalCount = redSupportCount + blueSupportCount;
         animateVoteProgress(leftProgress, redSupportCount / totalCount);
         animateVoteProgress(rightProgress, blueSupportCount / totalCount);
-        //间隔 385 + 308ms，文字渐显，时间80ms
+        //间隔 tStartOffset + 308ms，文字渐显，时间80ms
         animateVotePeople(redSupportLL);
         animateVotePeople(blueSupportLL);
-        //间隔 385 + 1080ms，count[0-end]先加速后减速渐变，时间3080ms
+        //间隔 tStartOffset + 1080ms，count[0-end]先加速后减速渐变，时间3080ms
         animateVoteCount(redCountTv, redSupportCount);
         animateVoteCount(blueCountTv, blueSupportCount);
     }
@@ -184,10 +197,31 @@ public class PKBottomView extends FrameLayout {
     /**
      * 按钮
      */
-    private void animateBtn(View btn) {
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(btn, "Alpha", 0f, 1f);
-        alpha.setDuration(385);
+    private void animateBtn(final View btn) {
+        int tBreath = 462;
+        int tDelay = 80;
+        int tAlpha = 385;
+        //462
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(btn, "ScaleX", 1f, 0.85f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(btn, "ScaleY", 1f, 0.85f, 1f);
+        scaleX.setDuration(tBreath);
+        scaleY.setDuration(tBreath);
+        scaleX.start();
+        scaleY.start();
+        //delay 80
+        //alpha 385
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(btn, "Alpha", 1f, 0);
+        alpha.setStartDelay(tBreath + tDelay);
+        alpha.setDuration(tAlpha);
+        alpha.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                btn.setVisibility(GONE);
+            }
+        });
         alpha.start();
+        tStartOffset = tAlpha + tDelay + tBreath;
     }
 
     /**
@@ -198,7 +232,7 @@ public class PKBottomView extends FrameLayout {
         view.setVisibility(VISIBLE);
         ValueAnimator animator = ValueAnimator.ofFloat(0f, endFraction);
         animator.setDuration(3000);
-        animator.setStartDelay(385 + 231);
+        animator.setStartDelay(tStartOffset + 231);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -217,7 +251,7 @@ public class PKBottomView extends FrameLayout {
         peopleLayout.setVisibility(VISIBLE);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(peopleLayout, "Alpha", 0, 1f);
         alpha.setDuration(100);
-        alpha.setStartDelay(385 + 308);
+        alpha.setStartDelay(tStartOffset + 308);
         alpha.start();
     }
 
@@ -228,7 +262,7 @@ public class PKBottomView extends FrameLayout {
         view.setText(" ");
         ValueAnimator animator = ValueAnimator.ofInt(0, supportCount);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setStartDelay(385 + 1080);
+        animator.setStartDelay(tStartOffset + 1080);
         animator.setDuration(3000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
