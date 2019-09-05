@@ -11,6 +11,7 @@
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView
@@ -47,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
-        android:visibility="gone"
         app:round_corner="18dp">
 
         <!--这个是正向绘制-->
@@ -72,9 +72,8 @@
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/red_count_tv"
@@ -82,7 +81,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:textSize="15sp"
-            tools:text="25人" />
+            tools:text="25人"
+            android:translationY="2dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,7 +90,8 @@
             android:alpha="0.66"
             android:text="@string/vote_sub"
             android:textColor="#fff"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:translationY="-2dp"/>
 
     </LinearLayout>
 
@@ -100,7 +101,7 @@
         android:layout_height="36dp"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="15dp"
-        android:gravity="center"
+        android:gravity="center_vertical|right"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -110,7 +111,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:textSize="15sp"
-            tools:text="25人" />
+            tools:text="25人"
+            android:translationY="2dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -118,7 +120,8 @@
             android:alpha="0.66"
             android:text="@string/vote_sub"
             android:textColor="#fff"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:translationY="-2dp"/>
 
     </LinearLayout>
 

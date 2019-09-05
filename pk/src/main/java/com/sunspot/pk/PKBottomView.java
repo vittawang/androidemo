@@ -198,12 +198,12 @@ public class PKBottomView extends FrameLayout {
      * 按钮
      */
     private void animateBtn(final View btn) {
-        int tBreath = 462;
-        int tDelay = 80;
-        int tAlpha = 385;
+        int tBreath = 250;
+        int tDelay = 0;
+        int tAlpha = 280;
         //462
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(btn, "ScaleX", 1f, 0.85f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(btn, "ScaleY", 1f, 0.85f, 1f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(btn, "ScaleX", 1f, 0.94f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(btn, "ScaleY", 1f, 0.94f, 1f);
         scaleX.setDuration(tBreath);
         scaleY.setDuration(tBreath);
         scaleX.start();
@@ -231,8 +231,8 @@ public class PKBottomView extends FrameLayout {
         view.setFraction(0);
         view.setVisibility(VISIBLE);
         ValueAnimator animator = ValueAnimator.ofFloat(0f, endFraction);
-        animator.setDuration(3000);
-        animator.setStartDelay(tStartOffset + 231);
+        animator.setDuration(1600);
+        animator.setStartDelay(tStartOffset + 150);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -262,12 +262,16 @@ public class PKBottomView extends FrameLayout {
         view.setText(" ");
         ValueAnimator animator = ValueAnimator.ofInt(0, supportCount);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setStartDelay(tStartOffset + 1080);
-        animator.setDuration(3000);
+        animator.setStartDelay(tStartOffset + 150);
+        if (supportCount < 5) {
+            animator.setDuration(1600 + 100);
+        } else {
+            animator.setDuration(1600 + 400);
+        }
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                view.setText(String.valueOf(animation.getAnimatedValue()));
+                view.setText(String.format(getContext().getString(R.string.vote_people_count),String.valueOf(animation.getAnimatedValue())));
             }
         });
         animator.start();
