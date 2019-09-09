@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         pk.setVoteListener(new PKBottomView.VoteListener() {
             @Override
             public void onSupportRedClick(View view) {
-                pk.doVoteAnim(2,1);
+                pk.doVoteAnim(5,4);
             }
 
             @Override
             public void onSupportBlueClick(View view) {
-                pk.doVoteAnim(200,120);
+                pk.doVoteAnim(200000000000000L,1000);
             }
         });
     }

@@ -116,7 +116,7 @@ public class PKBottomView extends FrameLayout {
      * @param redSupport  红方支持人数
      * @param blueSupport 蓝方支持人数
      */
-    private void setActive(boolean hasVoted, int redSupport, int blueSupport) {
+    private void setActive(boolean hasVoted, long redSupport, long blueSupport) {
         if (hasVoted) {
             //已经投过票啦，展示投票进度
             updateVoteResult(redSupport, blueSupport);
@@ -150,11 +150,11 @@ public class PKBottomView extends FrameLayout {
      * @param redSupport  红方支持人数
      * @param blueSupport 蓝方支持人数
      */
-    private void setEnded(int redSupport, int blueSupport) {
+    private void setEnded(long redSupport, long blueSupport) {
         updateVoteResult(redSupport, blueSupport);
     }
 
-    private void updateVoteResult(int redSupport, int blueSupport) {
+    private void updateVoteResult(long redSupport, long blueSupport) {
         stateVisibleSetting(false, true);
         redCountTv.setText(String.format(getContext().getString(R.string.vote_people_count), String.valueOf(redSupport)));
         blueCountTv.setText(String.format(getContext().getString(R.string.vote_people_count), String.valueOf(blueSupport)));
@@ -174,7 +174,7 @@ public class PKBottomView extends FrameLayout {
         this.voteListener = voteListener;
     }
 
-    public void doVoteAnim(int redSupportCount, int blueSupportCount) {
+    public void doVoteAnim(long redSupportCount, long blueSupportCount) {
         if (redBtn.getVisibility() != VISIBLE || blueBtn.getVisibility() != VISIBLE) {
             return;
         }
@@ -183,9 +183,9 @@ public class PKBottomView extends FrameLayout {
         animateBtn(blueBtn);
         //间隔 tStartOffset + 231ms，进度条move 3080ms 先加速后减速
         progressContainer.setVisibility(VISIBLE);
-        float totalCount = redSupportCount + blueSupportCount;
-        animateVoteProgress(leftProgress, redSupportCount / totalCount);
-        animateVoteProgress(rightProgress, blueSupportCount / totalCount);
+        long totalCount = redSupportCount + blueSupportCount;
+        animateVoteProgress(leftProgress, redSupportCount * 1.0f / totalCount);
+        animateVoteProgress(rightProgress, blueSupportCount * 1.0f / totalCount);
         //间隔 tStartOffset + 308ms，文字渐显，时间80ms
         animateVotePeople(redSupportLL);
         animateVotePeople(blueSupportLL);
@@ -258,23 +258,41 @@ public class PKBottomView extends FrameLayout {
     /**
      * 文字变化
      */
-    private void animateVoteCount(final TextView view, int supportCount) {
+    private void animateVoteCount(final TextView view, final long supportCount) {
         view.setText(" ");
-        ValueAnimator animator = ValueAnimator.ofInt(0, supportCount);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setStartDelay(tStartOffset + 150);
+        ValueAnimator ff = ValueAnimator.ofFloat(0, 1f);
+        ff.setInterpolator(new AccelerateDecelerateInterpolator());
+        ff.setStartDelay(tStartOffset + 150);
         if (supportCount < 5) {
-            animator.setDuration(1600 + 100);
+            ff.setDuration(1600);
         } else {
-            animator.setDuration(1600 + 400);
+            ff.setDuration(1600 + 400);
         }
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ff.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                view.setText(String.format(getContext().getString(R.string.vote_people_count),String.valueOf(animation.getAnimatedValue())));
+                float f = (float) animation.getAnimatedValue();
+                view.setText(String.format(getContext().getString(R.string.vote_people_count), String.valueOf((long)(f * supportCount))));
             }
         });
-        animator.start();
+        ff.start();
+
+
+//        ValueAnimator animator = ValueAnimator.ofInt(0, supportCount);
+//        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+//        animator.setStartDelay(tStartOffset + 150);
+//        if (supportCount < 5) {
+//            animator.setDuration(1600 + 100);
+//        } else {
+//            animator.setDuration(1600 + 400);
+//        }
+//        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                view.setText(String.format(getContext().getString(R.string.vote_people_count),String.valueOf(animation.getAnimatedValue())));
+//            }
+//        });
+//        animator.start();
     }
 
     interface VoteListener {
