@@ -1,4 +1,4 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter.decor;
 
 import android.content.Context;
 import android.graphics.Rect;

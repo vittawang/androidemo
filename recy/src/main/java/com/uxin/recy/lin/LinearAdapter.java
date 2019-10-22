@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.uxin.recy.BaseAdapter;
 import com.uxin.recy.BaseViewHolder;
 import com.uxin.recy.R;
+import com.uxin.recy.adapter.BaseAdapter;
 
 import java.util.List;
 
@@ -60,13 +60,12 @@ public class LinearAdapter extends BaseAdapter<DataLinear, BaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+    public void convert(BaseViewHolder holder, DataLinear item, int position) {
         View view = holder.getView(R.id.rev_inner);
         if (view instanceof RecyclerView) {
             view.setTag(position);
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
             if (adapter instanceof CommentAdapter) {
-                DataLinear item = getItem(position);
                 Log.e(TAG, "onBindViewHolder: " + item + " / " + position);
                 if (item != null) {
                     ((CommentAdapter) adapter).setNewData(item.getCommentList());

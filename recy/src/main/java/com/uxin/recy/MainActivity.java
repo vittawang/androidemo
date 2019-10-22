@@ -1,5 +1,6 @@
 package com.uxin.recy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.uxin.recy.adapter.decor.StaggeredItemDecoration;
 import com.uxin.recy.entity.Video;
+import com.uxin.recy.lin.LinearActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 updateRecycler(VideoStaggeredAdapter.LAYOUT_GRID,VideoStaggeredAdapter.GRID,4,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(16));
                 break;
             case R.id.xixi:
-                toast(item.getTitle());
+                startActivity(new Intent(this,LinearActivity.class));
                 break;
             case R.id.haha:
                 toast(item.getTitle());

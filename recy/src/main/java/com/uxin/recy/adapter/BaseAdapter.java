@@ -1,16 +1,22 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.uxin.recy.BaseViewHolder;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +31,8 @@ import java.util.List;
  * 备注：功能简述 - header/footer/empty/orientation/addData/setNewData/baseHolder
  * -------------------------------------
  */
-public abstract class StaggeredAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private static final String TAG = "StaggeredAdapter";
     private static final int HEADER_TYPE = 100;
     private static final int FOOTER_TYPE = 200;
     private static final int EMPTY_TYPE = 300;
@@ -47,14 +52,21 @@ public abstract class StaggeredAdapter<T> extends RecyclerView.Adapter<BaseViewH
      */
     private FrameLayout mEmptyLayout;
     private boolean mIsUseEmpty;
+    /**
+     * 此适配器attach的RecyclerView
+     */
+    private RecyclerView mRecyclerView;
 
-    public StaggeredAdapter(int layoutRes) {
-        this(new ArrayList<T>(), layoutRes);
+    public BaseAdapter(int layoutRes) {
+        this(layoutRes, new ArrayList<T>());
     }
 
-    public StaggeredAdapter(List<T> data, int layoutRes) {
-        this.mData = data;
+    public BaseAdapter(int layoutRes, List<T> data) {
         this.layoutRes = layoutRes;
+        this.mData = data;
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
     }
 
     public void setOrientationType(int orientationType) {
@@ -67,49 +79,64 @@ public abstract class StaggeredAdapter<T> extends RecyclerView.Adapter<BaseViewH
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        //header和footer需要合并单元格
         if (viewType == HEADER_TYPE && mHeaderLayout != null) {
             if (mHeaderLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mHeaderLayout.getParent()).removeView(mHeaderLayout);
             }
-            mHeaderLayout.setLayoutParams(generateFullSpanLPWithOrientation());
-            return new BaseViewHolder(mHeaderLayout);
+            mHeaderLayout.setLayoutParams(generateFullSpanParamsWithOrientation());
+            return createBaseViewHolder(mHeaderLayout);
         } else if (viewType == FOOTER_TYPE && mFooterLayout != null) {
             if (mFooterLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mFooterLayout.getParent()).removeView(mFooterLayout);
             }
-            mFooterLayout.setLayoutParams(generateFullSpanLPWithOrientation());
-            return new BaseViewHolder(mFooterLayout);
+            mFooterLayout.setLayoutParams(generateFullSpanParamsWithOrientation());
+            return createBaseViewHolder(mFooterLayout);
         } else if (viewType == EMPTY_TYPE && mEmptyLayout != null) {
             if (mEmptyLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mEmptyLayout.getParent()).removeView(mEmptyLayout);
             }
-            StaggeredGridLayoutManager.LayoutParams lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT, StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT);
-            lp.setFullSpan(true);
-            mEmptyLayout.setLayoutParams(lp);
-            return new BaseViewHolder(mEmptyLayout);
+            mEmptyLayout.setLayoutParams(generateFullSpanParams());
+            return createBaseViewHolder(mEmptyLayout);
         }
-        return new BaseViewHolder(LayoutInflater.from(mContext).inflate(layoutRes, parent, false));
+        return createBaseViewHolder(LayoutInflater.from(mContext).inflate(layoutRes, parent, false));
     }
 
     @NonNull
-    private StaggeredGridLayoutManager.LayoutParams generateFullSpanLPWithOrientation() {
-        StaggeredGridLayoutManager.LayoutParams lp;
-        if (orientationType == HORIZONTAL) {
-            lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.WRAP_CONTENT, StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT);
+    private RecyclerView.LayoutParams generateFullSpanParams() {
+        if (mRecyclerView != null && mRecyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            StaggeredGridLayoutManager.LayoutParams lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT, StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT);
+            lp.setFullSpan(true);
+            return lp;
         } else {
-            lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT, StaggeredGridLayoutManager.LayoutParams.WRAP_CONTENT);
+            return new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
         }
-        //设置layoutParams 合并单元格
-        lp.setFullSpan(true);
-        return lp;
+    }
+
+    @NonNull
+    private RecyclerView.LayoutParams generateFullSpanParamsWithOrientation() {
+        if (mRecyclerView != null && mRecyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            //header和footer需要合并单元格
+            StaggeredGridLayoutManager.LayoutParams lp;
+            if (orientationType == HORIZONTAL) {
+                lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.WRAP_CONTENT, StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT);
+            } else {
+                lp = new StaggeredGridLayoutManager.LayoutParams(StaggeredGridLayoutManager.LayoutParams.MATCH_PARENT, StaggeredGridLayoutManager.LayoutParams.WRAP_CONTENT);
+            }
+            lp.setFullSpan(true);
+            return lp;
+        } else {
+            if (orientationType == HORIZONTAL) {
+                return new RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.MATCH_PARENT);
+            } else {
+                return new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+            }
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder: " + position);
+    public void onBindViewHolder(@NonNull VH holder, int position) {
         int itemViewType = getItemViewType(position);
         switch (itemViewType) {
             case HEADER_TYPE:
@@ -124,7 +151,7 @@ public abstract class StaggeredAdapter<T> extends RecyclerView.Adapter<BaseViewH
         }
     }
 
-    public abstract void convert(BaseViewHolder holder, T item, int position);
+    public abstract void convert(VH holder, T item, int position);
 
     @Override
     public int getItemCount() {
@@ -371,4 +398,107 @@ public abstract class StaggeredAdapter<T> extends RecyclerView.Adapter<BaseViewH
         }
     }
 
+    /**
+     * 拿到泛型上的VH类型（不管继承几层 - 通过getSuperClass实现），然后new一个VH对象出来
+     *
+     * @param view
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected VH createBaseViewHolder(View view) {
+        Class temp = getClass();
+        Class z = null;
+        while (z == null && temp != null) {
+            //不管继承几层
+            z = getGenericVHClass(temp);
+            temp = temp.getSuperclass();
+        }
+        VH vh;
+        //泛型擦出会导致z是null
+        if (z == null) {
+            vh = (VH) new BaseViewHolder(view);
+        } else {
+            vh = createGenericVHInstance(z, view);
+        }
+        return vh;
+    }
+
+    /**
+     * 获取类上的泛型类VH
+     *
+     * @param z 要获取泛型的类(RecyclerView.Adapter)
+     * @return 类上的泛型的Class对象(Class ..VH)
+     */
+    private Class getGenericVHClass(Class z) {
+        //z : temp - RecyclerView.Adapter<VH>
+        Type genericSuperclass = z.getGenericSuperclass();
+        //Type 有四种子类 ： Class（类类型） ParameterizedType（泛型类型List<T>、Map<K,V>） TypeVariable（类型变量，泛型中的T、K、V） GenericArrayType（泛型数组类型List<T>[] 、T[]）
+        if (genericSuperclass instanceof ParameterizedType) {
+            //actualTypeArguments - VH
+            Type[] actualTypeArguments = ((ParameterizedType) genericSuperclass).getActualTypeArguments();
+            for (Type typeArg : actualTypeArguments) {
+                if (typeArg instanceof Class) {
+                    //VH
+                    Class typeClass = (Class) typeArg;
+                    if (BaseViewHolder.class.isAssignableFrom(typeClass)) {
+                        //typeClass 是 BaseViewHolder类型吗
+                        return typeClass;
+                    }
+                } else if (typeArg instanceof ParameterizedType) {
+                    //VH<T>
+                    Type rawType = ((ParameterizedType) typeArg).getRawType();
+                    if (rawType instanceof Class && BaseViewHolder.class.isAssignableFrom((Class<?>) rawType)) {
+                        return (Class<?>) rawType;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据类new一个对象出来
+     *
+     * @param z    VH
+     * @param view VH 构造里的参数
+     * @return VH对象
+     */
+    @SuppressWarnings("unchecked")
+    private VH createGenericVHInstance(Class z, View view) {
+        Constructor constructor;
+        try {
+            if (z.isMemberClass() && !Modifier.isStatic(z.getModifiers())) {
+                //VH 是成员内部类，外部类对象 adapter 在构造方法里（两个参数）
+                constructor = z.getDeclaredConstructor(getClass(), View.class);
+                constructor.setAccessible(true);
+                return (VH) constructor.newInstance(this, view);
+            } else {
+                //非成员内部类，一个参数的构造
+                constructor = z.getDeclaredConstructor(View.class);
+                constructor.setAccessible(true);
+                return (VH) constructor.newInstance(view);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecyclerView = null;
+    }
 }

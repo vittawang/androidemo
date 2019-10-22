@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.uxin.recy.adapter.BaseAdapter;
 import com.uxin.recy.entity.Video;
 
 /**
@@ -17,7 +18,7 @@ import com.uxin.recy.entity.Video;
  * 备注：
  * -------------------------------------
  */
-public class VideoStaggeredAdapter extends StaggeredAdapter<Video> {
+public class VideoStaggeredAdapter extends BaseAdapter<Video,BaseViewHolder> {
 
     public static final int LAYOUT_GRID = R.layout.item_nine_grid;
     public static final int LAYOUT_STAGGERED = R.layout.item_staggered;
