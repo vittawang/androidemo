@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.uxin.recy.BaseAdapter;
-import com.uxin.recy.BaseViewHolder;
+import com.uxin.recy.adapter.BaseViewHolder;
 import com.uxin.recy.R;
 
 import java.util.List;

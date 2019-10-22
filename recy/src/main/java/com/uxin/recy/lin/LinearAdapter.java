@@ -7,9 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.uxin.recy.BaseViewHolder;
+import com.uxin.recy.adapter.BaseViewHolder;
 import com.uxin.recy.R;
 import com.uxin.recy.adapter.BaseAdapter;
 

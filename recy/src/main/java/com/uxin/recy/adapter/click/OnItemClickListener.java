@@ -1,15 +1,15 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter.click;
 
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>
  * -------------------------------------
- * 时间：2018/11/5 下午7:28
+ * 时间：2018/11/5 下午7:27
  * -------------------------------------
- * 描述：item 子view 长按事件
+ * 描述：item 点击事件
  * -------------------------------------
  * 备注：
  * -------------------------------------
  */
-public class OnItemChildLongClickListener {
+public interface OnItemClickListener {
 }

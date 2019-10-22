@@ -1,4 +1,4 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.uxin.recy.BaseAdapter;
 
 /**
  * -------------------------------------
@@ -31,7 +33,7 @@ import android.widget.TextView;
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> views;
-    private BaseAdapter adapter;
+    private com.uxin.recy.BaseAdapter adapter;
     private View.OnClickListener mOnClickListener;
 
     public BaseViewHolder(@NonNull View itemView) {

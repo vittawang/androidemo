@@ -1,4 +1,4 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter.click;
 
 /**
  * -------------------------------------
@@ -6,10 +6,10 @@ package com.uxin.recy;
  * -------------------------------------
  * 时间：2018/11/5 下午7:27
  * -------------------------------------
- * 描述：item 点击事件
+ * 描述：item 长按事件
  * -------------------------------------
  * 备注：
  * -------------------------------------
  */
-public class OnItemClickListener {
+public interface OnItemLongClickListener {
 }

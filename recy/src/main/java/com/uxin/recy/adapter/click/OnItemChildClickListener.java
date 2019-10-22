@@ -1,6 +1,8 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter.click;
 
 import android.view.View;
+
+import com.uxin.recy.BaseAdapter;
 
 /**
  * -------------------------------------
@@ -15,6 +17,6 @@ import android.view.View;
  */
 public interface OnItemChildClickListener {
 
-    void onItemChildClick(BaseAdapter adapter, View view,int position);
+    void onItemChildClick(BaseAdapter adapter, View view, int position);
 
 }

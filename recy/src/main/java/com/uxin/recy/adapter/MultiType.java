@@ -1,4 +1,4 @@
-package com.uxin.recy;
+package com.uxin.recy.adapter;
 
 /**
  * -------------------------------------
