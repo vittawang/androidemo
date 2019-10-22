@@ -1,13 +1,15 @@
 package com.uxin.recy;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -21,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] images = new String[]{
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540288341192&di=60bb1c755eaa9b1f8cd74419d7987389&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201705%2F19%2F130832ureqee4u46z74e4h.jpeg",
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540288402903&di=0d3322b2ba4166639ec2b918ded4b926&imgtype=0&src=http%3A%2F%2Fimg.igeek.com.cn%2Fuploads%2F2018%2F01%2F17%2Fcf8cc8dc748c78cb28495f7088fc50b4.jpeg",
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540288424745&di=e9a545c8650b1656be649b7aef5c3c9d&imgtype=0&src=http%3A%2F%2Fp0.so.qhmsg.com%2Ft0143fd18308a3c8e75.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540288463246&di=741c15fce620af78bba6a066f06aed85&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01fd1d585c0453a801219c77c48241.jpg%401280w_1l_2o_100sh.png",
+            "http://b-ssl.duitang.com/uploads/blog/201312/04/20131204184148_hhXUT.jpeg",
+            "http://b-ssl.duitang.com/uploads/item/201610/20/20161020180445_LvJZh.jpeg"
     };
     private FrameLayout mContainer;
 
@@ -32,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContainer = findViewById(R.id.container);
-        updateRecycler(StaggeredAdapter.LAYOUT_STAGGERED,StaggeredAdapter.VERTICAL,2,StaggeredGridLayoutManager.VERTICAL,10,15,queryRandomVideoList());
+        updateRecyclerWithHeader(VideoStaggeredAdapter.LAYOUT_STAGGERED,VideoStaggeredAdapter.VERTICAL,2,StaggeredGridLayoutManager.VERTICAL,10,15,queryRandomVideoList());
     }
 
-    private void updateRecycler(int layout,int adapterType,int spanCount,int orientation,int horizontalSpacing,int verticalSpacing,List<Video> list) {
+    private RecyclerView updateRecycler(int layout,int adapterType,int spanCount,int orientation,int horizontalSpacing,int verticalSpacing,List<Video> list) {
         RecyclerView recyclerView = new RecyclerView(this);
         if (mContainer.getChildCount() > 0) {
             mContainer.removeAllViews();
@@ -44,10 +46,38 @@ public class MainActivity extends AppCompatActivity {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new StaggeredItemDecoration(this,orientation,spanCount,horizontalSpacing,verticalSpacing));
-        StaggeredAdapter adapter = new StaggeredAdapter(layout);
-        adapter.setAdapterType(adapterType);
+        VideoStaggeredAdapter adapter = new VideoStaggeredAdapter(layout);
+        adapter.setOrientationType(adapterType);
         recyclerView.setAdapter(adapter);
         adapter.setNewData(list);
+        return recyclerView;
+    }
+
+    private void updateRecyclerWithHeader(int layout,int adapterType,int spanCount,int orientation,int horizontalSpacing,int verticalSpacing,List<Video> list) {
+        RecyclerView rev = updateRecycler(layout, adapterType, spanCount, orientation, horizontalSpacing, verticalSpacing, list);
+        final VideoStaggeredAdapter adapter = (VideoStaggeredAdapter) rev.getAdapter();
+        if (adapter == null){
+            return;
+        }
+        View header = LayoutInflater.from(this).inflate(R.layout.staggered_header, null, false);
+        adapter.setHeaderView(header);
+        adapter.setHeaderView(LayoutInflater.from(this).inflate(R.layout.staggered_header, null, false));
+
+        View footer = LayoutInflater.from(this).inflate(R.layout.staggered_footer, null, false);
+        adapter.setFooterView(footer);
+        RecyclerView.ItemDecoration itemDecoration = rev.getItemDecorationAt(0);
+        if (itemDecoration instanceof StaggeredItemDecoration) {
+            ((StaggeredItemDecoration) itemDecoration).setListHeaderCount(adapter.getHeaderCount());
+        }
+//        View inflate = LayoutInflater.from(this).inflate(R.layout.staggered_empty, null, false);
+//        inflate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                adapter.removeFooterView(0);
+//            }
+//        });
+//        adapter.setEmptyView(inflate);
+//        adapter.setNewData(null);
     }
 
     private List<Video> queryFixVideoList(int size) {
@@ -98,25 +128,25 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.staggered_vertical_two:
-                updateRecycler(StaggeredAdapter.LAYOUT_STAGGERED,StaggeredAdapter.VERTICAL,2,StaggeredGridLayoutManager.VERTICAL,10,10,queryRandomVideoList());
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_STAGGERED,VideoStaggeredAdapter.VERTICAL,2,StaggeredGridLayoutManager.VERTICAL,10,10,queryRandomVideoList());
                 return true;
             case R.id.staggered_vertical_three:
-                updateRecycler(StaggeredAdapter.LAYOUT_STAGGERED,StaggeredAdapter.VERTICAL,3,StaggeredGridLayoutManager.VERTICAL,10,10,queryRandomVideoList());
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_STAGGERED,VideoStaggeredAdapter.VERTICAL,3,StaggeredGridLayoutManager.VERTICAL,10,10,queryRandomVideoList());
                 break;
             case R.id.staggered_horizontal_three:
-                updateRecycler(StaggeredAdapter.LAYOUT_STAGGERED,StaggeredAdapter.HORIZONTAL,3,StaggeredGridLayoutManager.HORIZONTAL,10,10,queryRandomVideoList());
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_STAGGERED,VideoStaggeredAdapter.HORIZONTAL,3,StaggeredGridLayoutManager.HORIZONTAL,10,10,queryRandomVideoList());
                 break;
             case R.id.staggered_horizontal_four:
-                updateRecycler(StaggeredAdapter.LAYOUT_STAGGERED,StaggeredAdapter.HORIZONTAL,4,StaggeredGridLayoutManager.HORIZONTAL,10,10,queryRandomVideoList());
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_STAGGERED,VideoStaggeredAdapter.HORIZONTAL,4,StaggeredGridLayoutManager.HORIZONTAL,10,10,queryRandomVideoList());
                 break;
             case R.id.grid_two:
-                updateRecycler(StaggeredAdapter.LAYOUT_GRID,StaggeredAdapter.GRID,2,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(4));
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_GRID,VideoStaggeredAdapter.GRID,2,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(4));
                 break;
             case R.id.grid_three:
-                updateRecycler(StaggeredAdapter.LAYOUT_GRID,StaggeredAdapter.GRID,3,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(9));
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_GRID,VideoStaggeredAdapter.GRID,3,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(9));
                 break;
             case R.id.grid_four:
-                updateRecycler(StaggeredAdapter.LAYOUT_GRID,StaggeredAdapter.GRID,4,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(16));
+                updateRecycler(VideoStaggeredAdapter.LAYOUT_GRID,VideoStaggeredAdapter.GRID,4,StaggeredGridLayoutManager.VERTICAL,10,10,queryFixVideoList(16));
                 break;
             case R.id.xixi:
                 toast(item.getTitle());

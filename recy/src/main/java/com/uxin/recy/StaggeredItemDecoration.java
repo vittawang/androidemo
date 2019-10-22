@@ -29,9 +29,9 @@ public class StaggeredItemDecoration extends RecyclerView.ItemDecoration {
      */
     private int spanCount;
     /**
-     * 横向间距，纵向间距
+     * 横向间距，纵向间距(单位：dp)
      */
-    private int horizontalSpacing, verticalSpacing;
+    private int horizontalSpace, verticalSpace;
     /**
      * 方向
      */
@@ -42,10 +42,17 @@ public class StaggeredItemDecoration extends RecyclerView.ItemDecoration {
      */
     private int mListHeaderCount;
 
-    public StaggeredItemDecoration(Context context, int orientation, int spanCount, int horizontalSpacing, int verticalSpacing) {
+    /**
+     * @param context         context
+     * @param orientation     {@link #HORIZONTAL}{@link #VERTICAL}}
+     * @param spanCount       {@link StaggeredGridLayoutManager#getSpanCount()}
+     * @param horizontalSpace 卡片之间横向间距，单位：dp
+     * @param verticalSpace   卡片之间纵向间距，单位：dp
+     */
+    public StaggeredItemDecoration(Context context, int orientation, int spanCount, int horizontalSpace, int verticalSpace) {
         this.spanCount = spanCount;
-        this.horizontalSpacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, horizontalSpacing, context.getResources().getDisplayMetrics());
-        this.verticalSpacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, verticalSpacing, context.getResources().getDisplayMetrics());
+        this.horizontalSpace = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, horizontalSpace, context.getResources().getDisplayMetrics());
+        this.verticalSpace = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, verticalSpace, context.getResources().getDisplayMetrics());
         this.orientation = orientation;
     }
 
@@ -55,20 +62,25 @@ public class StaggeredItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        int position = parent.getChildAdapterPosition(view) - mListHeaderCount;
         StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
-        //从字面意思理解：分割的列的角标；(不能用position判断，要用spanIndex判断)
+        if (params.isFullSpan()) {
+            //兼容有header/footer的情况，position会=-1；header/footer的间距不处理；
+            super.getItemOffsets(outRect, view, parent, state);
+            return;
+        }
+        int staggeredItemIndex = parent.getChildAdapterPosition(view) - mListHeaderCount;
+        //从字面意思理解：item的角标，理解成标识item在哪一列；(不能用position判断，要用spanIndex判断，因为瀑布流的排布方式是按照剩余空间排列的，并不是按照左右左右... 排列的)
         int spanIndex = params.getSpanIndex();
         if (orientation == HORIZONTAL) {
-            outRect.top = (spanCount == 2 && spanIndex % 2 == 0) ? verticalSpacing : verticalSpacing / 2;
-            outRect.bottom = (spanCount == 2 && (spanIndex + 1) % 2 == 0) ? verticalSpacing : verticalSpacing / 2;
-            outRect.right = horizontalSpacing;
-            outRect.left = position < spanCount ? horizontalSpacing : 0;
+            outRect.top = (spanCount == 2 && spanIndex % 2 == 0) ? verticalSpace : verticalSpace / 2;
+            outRect.bottom = (spanCount == 2 && (spanIndex + 1) % 2 == 0) ? verticalSpace : verticalSpace / 2;
+            outRect.right = horizontalSpace;
+            outRect.left = staggeredItemIndex < spanCount ? horizontalSpace : 0;
         } else if (orientation == VERTICAL) {
-            outRect.left = (spanCount == 2 && spanIndex % 2 == 0) ? horizontalSpacing : horizontalSpacing / 2;
-            outRect.right = (spanCount == 2 && (spanIndex + 1) % 2 == 0) ? horizontalSpacing : horizontalSpacing / 2;
-            outRect.bottom = verticalSpacing;
-            outRect.top = position < spanCount ? verticalSpacing : 0;
+            outRect.left = (spanCount == 2 && spanIndex % 2 == 0) ? horizontalSpace : horizontalSpace / 2;
+            outRect.right = (spanCount == 2 && (spanIndex + 1) % 2 == 0) ? horizontalSpace : horizontalSpace / 2;
+            outRect.bottom = verticalSpace;
+            outRect.top = staggeredItemIndex < spanCount ? verticalSpace : 0;
         } else {
             super.getItemOffsets(outRect, view, parent, state);
         }

@@ -130,6 +130,12 @@ public class AvatarImageView extends ViewGroup {
         mIdentityIv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         addView(mIdentityIv);
         mIdentityIv.bringToFront();
+        setHeadData();
+    }
+
+    private void setHeadData() {
+        mAvatarIv.setImageResource(R.mipmap.head);
+        mIdentityIv.setImageResource(R.mipmap.vipk80_video);
     }
 
     @Override

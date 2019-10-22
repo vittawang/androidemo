@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ShowActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.sunspot.identity.AvatarImageView
+            style="@style/avatar_80"
+            app:border_color="#FF8383"
+            app:border_width="2dp" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_60" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_56" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_44" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_40" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_34" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_30" />
+
+        <com.sunspot.identity.AvatarImageView style="@style/avatar_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="80*80" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="60*60" />
+
+        <TextView
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="56*56" />
+
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="60*60" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="40*40" />
+
+        <TextView
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="34*34" />
+
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="30*30" />
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="24*24" />
+    </LinearLayout>
+
+</LinearLayout>

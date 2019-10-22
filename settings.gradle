@@ -1,1 +1,1 @@
-include ':app', ':recy', ':shine', ':identity', ':nine', ':customgroup', ':publisher', ':lifecircle', ':pop', ':expand', ':rich', ':sharelement', ':aanr', ':motion', ':colordemo', ':pk'
+include ':app', ':recy', ':shine', ':identity', ':nine', ':customgroup', ':publisher', ':lifecircle', ':pop', ':expand', ':rich', ':sharelement', ':aanr', ':motion', ':colordemo', ':pk', ':leak'

@@ -1,7 +1,9 @@
 package com.sunspot.identity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,5 +17,12 @@ public class MainActivity extends AppCompatActivity {
 //        ((AvatarImageView) findViewById(R.id.pendant)).setData();
         ((AvatarImageView) findViewById(R.id.a4)).setData();
         ((AvatarImageView) findViewById(R.id.a6)).setData();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Intent intent = new Intent(this,ShowActivity.class);
+        startActivity(intent);
+        return true;
     }
 }
