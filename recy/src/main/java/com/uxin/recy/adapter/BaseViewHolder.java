@@ -27,6 +27,7 @@ import android.widget.TextView;
  * 2. 封装view常见的设置方法，可以链式调用
  * 3. 封装view的点击事件，回调给adapter的onClickListener
  * 4. NoDoubleClickListener 的衔接问题
+ * 参考 {@link com.uxin.recy.child.VideoLinearAdapter}
  * -------------------------------------
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
