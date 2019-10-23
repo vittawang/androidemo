@@ -1,5 +1,9 @@
 package com.uxin.recy.adapter.click;
 
+import android.view.View;
+
+import com.uxin.recy.adapter.BaseAdapter;
+
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>
@@ -12,4 +16,7 @@ package com.uxin.recy.adapter.click;
  * -------------------------------------
  */
 public interface OnItemClickListener {
+
+    void onItemClick(BaseAdapter adapter, View view, int position);
+
 }

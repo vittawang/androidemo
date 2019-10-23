@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/click_test"
+        android:title="@string/test_click"/>
     <item
         android:id="@+id/staggered_vertical_two"
         android:title="@string/staggered_vertical_two" />

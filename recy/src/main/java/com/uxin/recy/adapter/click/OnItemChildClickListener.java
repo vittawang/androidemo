@@ -2,7 +2,8 @@ package com.uxin.recy.adapter.click;
 
 import android.view.View;
 
-import com.uxin.recy.BaseAdapter;
+import com.uxin.recy.adapter.BaseAdapter;
+
 
 /**
  * -------------------------------------

@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.uxin.recy.adapter.click.OnItemChildClickListener;
+import com.uxin.recy.adapter.click.OnItemChildLongClickListener;
+import com.uxin.recy.adapter.click.OnItemClickListener;
+import com.uxin.recy.adapter.click.OnItemLongClickListener;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -55,6 +60,23 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
      */
     private RecyclerView mRecyclerView;
 
+    /**
+     * 仅itemView的点击监听
+     */
+    private OnItemClickListener onItemClickListener;
+    /**
+     * 仅itemView的长按监听
+     */
+    private OnItemLongClickListener onItemLongClickListener;
+    /**
+     * item子view的点击监听
+     */
+    private OnItemChildClickListener onItemChildClickListener;
+    /**
+     * item子view的长按监听
+     */
+    private OnItemChildLongClickListener onItemChildLongClickListener;
+
     public BaseAdapter(int layoutRes) {
         this(layoutRes, new ArrayList<T>());
     }
@@ -79,26 +101,31 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+        VH holder;
         if (viewType == HEADER_TYPE && mHeaderLayout != null) {
             if (mHeaderLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mHeaderLayout.getParent()).removeView(mHeaderLayout);
             }
             mHeaderLayout.setLayoutParams(generateFullSpanParamsWithOrientation());
-            return createBaseViewHolder(mHeaderLayout);
+            holder = createBaseViewHolder(mHeaderLayout);
         } else if (viewType == FOOTER_TYPE && mFooterLayout != null) {
             if (mFooterLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mFooterLayout.getParent()).removeView(mFooterLayout);
             }
             mFooterLayout.setLayoutParams(generateFullSpanParamsWithOrientation());
-            return createBaseViewHolder(mFooterLayout);
+            holder = createBaseViewHolder(mFooterLayout);
         } else if (viewType == EMPTY_TYPE && mEmptyLayout != null) {
             if (mEmptyLayout.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mEmptyLayout.getParent()).removeView(mEmptyLayout);
             }
             mEmptyLayout.setLayoutParams(generateFullSpanParams());
-            return createBaseViewHolder(mEmptyLayout);
+            holder = createBaseViewHolder(mEmptyLayout);
+        } else {
+            holder = createBaseViewHolder(LayoutInflater.from(mContext).inflate(layoutRes, parent, false));
+            bindItemViewClickListener(holder);
         }
-        return createBaseViewHolder(LayoutInflater.from(mContext).inflate(layoutRes, parent, false));
+        holder.setAdapter(this);
+        return holder;
     }
 
     @NonNull
@@ -205,21 +232,21 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
         if (getHeaderCount() > 0) {
             return 0;
         }
-        return -1;
+        return RecyclerView.NO_POSITION;
     }
 
     private int getFooterViewPosition() {
         if (getFooterCount() > 0) {
             return getItemCount() - getFooterCount();
         }
-        return -1;
+        return RecyclerView.NO_POSITION;
     }
 
     private int getEmptyViewPosition() {
         if (getEmptyViewCount() > 0) {
             return getHeaderViewPosition() + 1;
         }
-        return -1;
+        return RecyclerView.NO_POSITION;
     }
 
     public T getItem(int position) {
@@ -278,7 +305,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
         mHeaderLayout.addView(header, index);
         if (mHeaderLayout.getChildCount() == 1) {
             int position = getHeaderViewPosition();
-            if (position != -1) {
+            if (position != RecyclerView.NO_POSITION) {
                 notifyItemInserted(position);
             }
         }
@@ -306,7 +333,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
         //notifyViewInsert
         if (mFooterLayout.getChildCount() == 1) {
             int footerViewPosition = getFooterViewPosition();
-            if (footerViewPosition != -1) {
+            if (footerViewPosition != RecyclerView.NO_POSITION) {
                 notifyItemInserted(footerViewPosition);
             }
         }
@@ -389,7 +416,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
         if (insert) {
             if (getEmptyViewCount() == 1) {
                 int emptyViewPosition = getEmptyViewPosition();
-                if (emptyViewPosition != -1) {
+                if (emptyViewPosition != RecyclerView.NO_POSITION) {
                     notifyItemInserted(emptyViewPosition);
                 }
             }
@@ -498,5 +525,46 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         mRecyclerView = null;
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public OnItemLongClickListener getOnItemLongClickListener() {
+        return onItemLongClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public OnItemChildClickListener getOnItemChildClickListener() {
+        return onItemChildClickListener;
+    }
+
+    public void setOnItemChildClickListener(OnItemChildClickListener onItemChildClickListener) {
+        this.onItemChildClickListener = onItemChildClickListener;
+    }
+
+    public OnItemChildLongClickListener getOnItemChildLongClickListener() {
+        return onItemChildLongClickListener;
+    }
+
+    public void setOnItemChildLongClickListener(OnItemChildLongClickListener onItemChildLongClickListener) {
+        this.onItemChildLongClickListener = onItemChildLongClickListener;
+    }
+
+    /**
+     * 如果有必要，在创建holder时就去创建ItemView的点击事件
+     */
+    private void bindItemViewClickListener(VH holder) {
+        if (getOnItemClickListener() != null) {
+            getOnItemClickListener().onItemClick(this, holder.itemView, holder.getAdapterPosition());
+        }
     }
 }

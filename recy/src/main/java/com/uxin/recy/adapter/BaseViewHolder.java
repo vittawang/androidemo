@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.uxin.recy.BaseAdapter;
 
 /**
  * -------------------------------------
@@ -25,16 +24,15 @@ import com.uxin.recy.BaseAdapter;
  * 描述：ViewHolder 基类
  * -------------------------------------
  * 备注：1. ViewHolder里不能显示的声明具体的view，只能声明view的集合，具体使用SparseArray缓存一个view集合，不要每次获取view都去findViewById！
- *      2. 封装view常见的设置方法，可以链式调用
- *      3. 封装view的点击事件，回调给adapter的onClickListener
- *      4. NoDoubleClickListener 的衔接问题
+ * 2. 封装view常见的设置方法，可以链式调用
+ * 3. 封装view的点击事件，回调给adapter的onClickListener
+ * 4. NoDoubleClickListener 的衔接问题
  * -------------------------------------
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> views;
-    private com.uxin.recy.BaseAdapter adapter;
-    private View.OnClickListener mOnClickListener;
+    private BaseAdapter adapter;
 
     public BaseViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -133,12 +131,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public BaseViewHolder setOnClickListener(@IdRes int viewId, View.OnClickListener listener) {
-        View view = getView(viewId);
-        view.setOnClickListener(listener);
-        return this;
-    }
-
+    /**
+     * 添加item子view的点击事件
+     *
+     * @param viewId viewId
+     * @return 链式调用
+     */
     public BaseViewHolder addOnClickListener(@IdRes final int viewId) {
         View view = getView(viewId);
         if (view != null) {
@@ -149,7 +147,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onClick(View v) {
                     if (adapter.getOnItemChildClickListener() != null) {
-                        adapter.getOnItemChildClickListener().onItemChildClick(adapter, v, getClickPosition());
+                        adapter.getOnItemChildClickListener().onItemChildClick(adapter, v, getAdapterPosition());
                     }
                 }
             });
@@ -157,14 +155,13 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public int getClickPosition() {
-        if (getLayoutPosition() >= adapter.getHeaderLayoutCount()) {
-            return getLayoutPosition() - adapter.getHeaderLayoutCount();
-        }
-        return 0;
-    }
-
-    public BaseViewHolder addItemChildListeners(@IdRes int ... idRes){
+    /**
+     * 批量添加item子view的点击事件
+     *
+     * @param idRes id数组
+     * @return 链式调用
+     */
+    public BaseViewHolder addItemChildListeners(@IdRes int... idRes) {
         if (idRes != null && idRes.length > 0) {
             int length = idRes.length;
             for (int i = 0; i < length; i++) {
@@ -174,7 +171,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public void setAdapter (BaseAdapter adapter){
+    /**
+     * holder 绑定adapter，给view添加点击事件时通过adapter的监听把点击事件抛出去{@link com.uxin.recy.adapter.click.OnItemChildClickListener}
+     * @param adapter
+     */
+    public void setAdapter(BaseAdapter adapter) {
         this.adapter = adapter;
     }
 

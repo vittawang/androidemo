@@ -1,9 +1,10 @@
-package com.uxin.recy;
+package com.uxin.recy.child;
 
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.uxin.recy.R;
 import com.uxin.recy.adapter.BaseAdapter;
 import com.uxin.recy.adapter.BaseViewHolder;
 import com.uxin.recy.entity.Video;
@@ -14,7 +15,7 @@ import com.uxin.recy.entity.Video;
  * -------------------------------------
  * 时间：2019-10-22 12:14
  * -------------------------------------
- * 描述：
+ * 描述：单布局瀑布流
  * -------------------------------------
  * 备注：
  * -------------------------------------

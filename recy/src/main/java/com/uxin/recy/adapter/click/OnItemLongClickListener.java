@@ -1,5 +1,9 @@
 package com.uxin.recy.adapter.click;
 
+import android.view.View;
+
+import com.uxin.recy.adapter.BaseAdapter;
+
 /**
  * -------------------------------------
  * 作者：王文婷@<vitta.wang@uxin.com>
@@ -8,8 +12,11 @@ package com.uxin.recy.adapter.click;
  * -------------------------------------
  * 描述：item 长按事件
  * -------------------------------------
- * 备注：
+ * 备注：(暂未实现)
  * -------------------------------------
  */
 public interface OnItemLongClickListener {
+
+    void onItemLongClick(BaseAdapter adapter, View view, int position);
+
 }
