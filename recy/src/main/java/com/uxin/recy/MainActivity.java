@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        adapter.setNewData(null);
     }
 
-    private RecyclerView updateLinearRecycler(List<Video> list) {
+    private RecyclerView updateLinearRecycler(final List<Video> list) {
         RecyclerView recyclerView = new RecyclerView(this);
         if (mContainer.getChildCount() > 0) {
             mContainer.removeAllViews();
@@ -113,9 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     switch (view.getId()) {
                         case R.id.container:
                             Toast.makeText(MainActivity.this, "container - " + position + " - " + ((Video) item).getTitle(), Toast.LENGTH_SHORT).show();
+                            list.clear();
                             break;
                         case R.id.tv_center:
                             Toast.makeText(MainActivity.this, "tv_center - " + position + " - " + ((Video) item).getTitle(), Toast.LENGTH_SHORT).show();
+                            adapter.setNewData(queryRandomVideoList());
                             break;
                     }
                 }

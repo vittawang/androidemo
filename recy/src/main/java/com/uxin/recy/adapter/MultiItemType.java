@@ -11,8 +11,11 @@ package com.uxin.recy.adapter;
  * 备注：
  * -------------------------------------
  */
-public interface MultiType {
+public interface MultiItemType {
 
-    int getItemType();
+    /**
+     * adapter多布局的itemType,在{@link android.support.v7.widget.RecyclerView.Adapter}
+     */
+    int getMultiItemType();
 
 }

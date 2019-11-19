@@ -69,6 +69,11 @@ public class StaggeredItemDecoration extends RecyclerView.ItemDecoration {
             return;
         }
         int staggeredItemIndex = parent.getChildAdapterPosition(view) - mListHeaderCount;
+        if (staggeredItemIndex < 0) {
+            //规避掉header的间距（mListHeaderCount有关系）
+            super.getItemOffsets(outRect, view, parent, state);
+            return;
+        }
         //从字面意思理解：item的角标，理解成标识item在哪一列；(不能用position判断，要用spanIndex判断，因为瀑布流的排布方式是按照剩余空间排列的，并不是按照左右左右... 排列的)
         int spanIndex = params.getSpanIndex();
         if (orientation == HORIZONTAL) {

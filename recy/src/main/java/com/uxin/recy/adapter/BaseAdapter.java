@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ import java.util.List;
  * -------------------------------------
  */
 public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH> {
+
+    private static final String TAG = "BaseAdapter";
 
     private static final int HEADER_TYPE = 100;
     private static final int FOOTER_TYPE = 200;
@@ -162,6 +165,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        Log.e(TAG, "onBindViewHolder: " + position );
         int itemViewType = getItemViewType(position);
         switch (itemViewType) {
             case HEADER_TYPE:
