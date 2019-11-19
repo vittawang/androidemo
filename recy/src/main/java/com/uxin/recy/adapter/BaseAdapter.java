@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * -------------------------------------
- * 作者：王文婷@<vitta.wang@uxin.com>
+ * 作者：vitta
  * -------------------------------------
  * 时间：2018/10/22 下午5:00
  * -------------------------------------
@@ -45,7 +45,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
     protected Context mContext;
-    private List<T> mData;
+    protected List<T> mData;
     private int layoutRes;
     private int orientationType = VERTICAL;
 
@@ -81,15 +81,21 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     private OnItemChildLongClickListener onItemChildLongClickListener;
 
     public BaseAdapter(int layoutRes) {
-        this(layoutRes, new ArrayList<T>());
+        this(layoutRes, null);
     }
 
     public BaseAdapter(int layoutRes, List<T> data) {
-        this.layoutRes = layoutRes;
+        if (layoutRes > 0) {
+            this.layoutRes = layoutRes;
+        }
         this.mData = data;
         if (mData == null) {
             mData = new ArrayList<>();
         }
+    }
+
+    public BaseAdapter(List<T> data) {
+        this(0, data);
     }
 
     public void setOrientationType(int orientationType) {
@@ -124,11 +130,15 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
             mEmptyLayout.setLayoutParams(generateFullSpanParams());
             holder = createBaseViewHolder(mEmptyLayout);
         } else {
-            holder = createBaseViewHolder(LayoutInflater.from(mContext).inflate(layoutRes, parent, false));
+            holder = onCreateDefViewHolder(parent,viewType);
             bindItemViewClickListener(holder);
         }
         holder.setAdapter(this);
         return holder;
+    }
+
+    protected View getItemView(@NonNull ViewGroup parent, int layoutRes) {
+        return LayoutInflater.from(mContext).inflate(layoutRes, parent, false);
     }
 
     @NonNull
@@ -196,6 +206,13 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
         } else if (position == getEmptyViewPosition()) {
             return EMPTY_TYPE;
         }
+        return getDefItemViewType(position);
+    }
+
+    /**
+     * RecyclerView 默认返回值做一层抽象
+     */
+    protected int getDefItemViewType(int position) {
         return super.getItemViewType(position);
     }
 
@@ -425,6 +442,16 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
                 }
             }
         }
+    }
+
+    /**
+     * 填充默认的item
+     *
+     * @param parent itemView的parent 即RecyclerView
+     * @return {@link #layoutRes}对应的holder
+     */
+    protected VH onCreateDefViewHolder(ViewGroup parent,int viewType) {
+        return createBaseViewHolder(getItemView(parent, layoutRes));
     }
 
     /**
