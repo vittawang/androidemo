@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 
 import com.uxin.recy.adapter.click.OnItemChildClickListener;
 import com.uxin.recy.adapter.click.OnItemChildLongClickListener;
@@ -37,11 +37,9 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private static final String TAG = "BaseAdapter";
-
-    private static final int HEADER_TYPE = 100;
-    private static final int FOOTER_TYPE = 200;
-    private static final int EMPTY_TYPE = 300;
+    private static final int HEADER_TYPE = -100;
+    private static final int FOOTER_TYPE = -200;
+    private static final int EMPTY_TYPE = -300;
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
     protected Context mContext;
@@ -130,8 +128,9 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
             mEmptyLayout.setLayoutParams(generateFullSpanParams());
             holder = createBaseViewHolder(mEmptyLayout);
         } else {
-            holder = onCreateDefViewHolder(parent,viewType);
+            holder = onCreateDefViewHolder(parent, viewType);
             bindItemViewClickListener(holder);
+            bindItemChildViewClickListener(holder,viewType);
         }
         holder.setAdapter(this);
         return holder;
@@ -175,7 +174,6 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Log.e(TAG, "onBindViewHolder: " + position );
         int itemViewType = getItemViewType(position);
         switch (itemViewType) {
             case HEADER_TYPE:
@@ -450,7 +448,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
      * @param parent itemView的parent 即RecyclerView
      * @return {@link #layoutRes}对应的holder
      */
-    protected VH onCreateDefViewHolder(ViewGroup parent,int viewType) {
+    protected VH onCreateDefViewHolder(ViewGroup parent, int viewType) {
         return createBaseViewHolder(getItemView(parent, layoutRes));
     }
 
@@ -520,7 +518,7 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
      * @return VH对象
      */
     @SuppressWarnings("unchecked")
-    private VH createGenericVHInstance(Class z, View view) {
+    protected VH createGenericVHInstance(Class z, View view) {
         Constructor constructor;
         try {
             if (z.isMemberClass() && !Modifier.isStatic(z.getModifiers())) {
@@ -593,9 +591,48 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends Recycler
     /**
      * 如果有必要，在创建holder时就去创建ItemView的点击事件
      */
-    private void bindItemViewClickListener(VH holder) {
+    private void bindItemViewClickListener(final VH holder) {
         if (getOnItemClickListener() != null) {
-            getOnItemClickListener().onItemClick(this, holder.itemView, holder.getAdapterPosition());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getOnItemClickListener().onItemClick(BaseAdapter.this, v, holder.getAdapterPosition());
+                }
+            });
+        }
+        if (getOnItemLongClickListener() != null) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    getOnItemLongClickListener().onItemLongClick(BaseAdapter.this, v, holder.getAdapterPosition());
+                    return true;
+                }
+            });
         }
     }
+
+
+    /**
+     * 如果有必要，创建holder时就给item child绑定点击事件；此方法在创建完holder就会调用；
+     * 参考调用下面方法
+     * {@link BaseViewHolder#addOnClickListener(int)}{@link BaseViewHolder#addItemChildListeners(int...)}
+     *
+     * @param holder 刚创建完的holder
+     */
+    protected void bindItemChildViewClickListener(VH holder, int viewType) {
+
+    }
+
+    /**
+     * 移除一条数据
+     * @param position adapterPosition
+     */
+    public void removeItem(int position){
+        T item = getItem(position);
+        if (item != null) {
+            mData.remove(position - getHeaderCount());
+            notifyItemRemoved(position);
+        }
+    }
+
 }

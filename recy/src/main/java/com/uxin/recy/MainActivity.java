@@ -77,15 +77,15 @@ public class MainActivity extends AppCompatActivity {
         if (itemDecoration instanceof StaggeredItemDecoration) {
             ((StaggeredItemDecoration) itemDecoration).setListHeaderCount(adapter.getHeaderCount());
         }
-//        View inflate = LayoutInflater.from(this).inflate(R.layout.staggered_empty, null, false);
-//        inflate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                adapter.removeFooterView(0);
-//            }
-//        });
-//        adapter.setEmptyView(inflate);
-//        adapter.setNewData(null);
+        View inflate = LayoutInflater.from(this).inflate(R.layout.staggered_empty, null, false);
+        inflate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.removeFooterView(0);
+            }
+        });
+        adapter.setEmptyView(inflate);
+        adapter.setNewData(null);
     }
 
     private RecyclerView updateLinearRecycler(final List<Video> list) {
