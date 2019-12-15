@@ -14,11 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         RoomStatusIconsLayout viewById = findViewById(R.id.icon_layout);
-
         viewById.setData(getData());
-
     }
 
     private List<DataRoomCoverIcon> getData() {

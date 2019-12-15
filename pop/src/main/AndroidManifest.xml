@@ -9,12 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".text.AutoActivity">
+        <activity android:name=".listll.TestAdapterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".listll.TestClassActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".text.AutoActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".MainActivity">
 
@@ -26,11 +42,13 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".frag.PopActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 
